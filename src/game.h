@@ -41,7 +41,10 @@ public:
 
 
 	Font title_font;
+	Font sub_title_font;
+
 	Text title_text;
+	Text sub_title_text;
 
 public:
 	bool GetRunning() const { return game_running; }

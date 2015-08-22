@@ -7,22 +7,23 @@
 
 #include "surface.h"
 #include "font.h"
+#include "colour.h"
 
 
 class Text : public Surface
 {
 public:
-	Text(Renderer &renderer, Font &font, const std::string &text, const SDL_Color &col);
+	Text(Renderer &renderer, Font &font, const std::string &text, const Colour &col);
 
 private:
 	Font &font;
 	std::string text;
-	SDL_Color colour;
+	Colour colour;
 
 public:
 	void SetText(const std::string &new_text);
-	void SetColour(const SDL_Color &new_colour);
-	void SetBoth(const std::string &new_text, const SDL_Color &new_colour);
+	void SetColour(const Colour &new_colour);
+	void SetBoth(const std::string &new_text, const Colour &new_colour);
 
 
 };

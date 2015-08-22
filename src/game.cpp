@@ -3,16 +3,25 @@
 //
 
 #include "game.h"
+#include "colour.h"
 
-SDL_Color colour_red { 255, 0, 0, 255 };
+Colour colour_red { "red" };
+Colour colour_yellow { "yellow" };
+Colour colour_white { "white" };
+
+Colour colour_background { 0.1f, 0.2f, 0.3f, 1.0f };
 
 Game::Game(std::string data_path, SDL_Window *window)
 : data_path(data_path)
 , renderer(window)
 
 
-, title_font(data_path+"fonts/Bangers/Bangers.ttf", 24)
-, title_text(renderer, title_font, "You are the Monster", colour_red)
+, title_font(data_path+"fonts/Bangers/Bangers.ttf", 24 * 4)
+, sub_title_font(data_path+"fonts/Bitter/Bitter-Regular.ttf", 24)
+
+, title_text(renderer, title_font, "You are the Monster!", colour_red)
+, sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow)
+
 {
 
 }
@@ -26,9 +35,13 @@ void Game::Update(float dt)
 
 void Game::Render()
 {
+	renderer.SetDrawColour(colour_background);
 	renderer.Clear();
 
-	renderer.Blit(title_text, nullptr, nullptr);
+	renderer.SetDrawColour(colour_white);
+
+	title_text.Render(50, 50);
+	sub_title_text.Render(50, 50 + title_text.GetHeight());
 
 	renderer.Present();
 }

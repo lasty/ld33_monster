@@ -4,6 +4,7 @@
 
 // Local includes
 #include "surface.h"
+#include "colour.h"
 
 
 // SDL includes
@@ -26,6 +27,7 @@ public:
 	void Clear();
 	void Present();
 
+	void SetDrawColour(const Colour &colour);
 
 	void Blit(Surface &surf, SDL_Rect *src, SDL_Rect *dest);
 

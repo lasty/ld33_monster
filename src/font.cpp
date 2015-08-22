@@ -16,4 +16,5 @@ Font::Font(const std::string &filename, int pointsize)
 		throw std::runtime_error("Could not open font file");
 	}
 
+	TTF_SetFontHinting(font.get(), TTF_HINTING_LIGHT);
 }

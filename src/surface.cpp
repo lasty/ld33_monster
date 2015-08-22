@@ -33,6 +33,7 @@ Surface::Surface(Renderer &renderer, SDL_Surface *ptr)
 {
 	if(ptr)
 	{
+		UpdateSurface();
 		UpdateTexture();
 	}
 }
@@ -50,6 +51,37 @@ void Surface::Unlock()
 }
 
 
+void Surface::UpdateSurface()
+{
+	surface_rect = SDL_Rect {0, 0, surface->w, surface->h};
+}
+
+
+SDL_Rect Surface::GetRectOffset(int x, int y)
+{
+	SDL_Rect ret = GetRect();
+	ret.x = x;
+	ret.y = y;
+	return ret;
+}
+
+
+void Surface::Render(int x, int y, int zoom)
+{
+	SDL_Rect dest { x, y, surface_rect.w * zoom, surface_rect.h * zoom };
+
+	renderer.Blit(*this, &surface_rect, &dest);
+}
+
+
+void Surface::Render(int x, int y)
+{
+	SDL_Rect dest { x, y, surface_rect.w, surface_rect.h};
+
+	renderer.Blit(*this, &surface_rect, &dest);
+}
+
+
 void Surface::SetBlend(SDL_BlendMode mode)
 {
 	SDL_SetSurfaceBlendMode(surface.get(), mode);
@@ -59,6 +91,7 @@ void Surface::SetBlend(SDL_BlendMode mode)
 void Surface::SetSurface(SDL_Surface *ptr)
 {
 	surface.reset(ptr);
+	UpdateSurface();
 }
 
 
