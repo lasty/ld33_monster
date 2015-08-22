@@ -65,6 +65,7 @@ public:
 	int GetWidth() const { return GetRect().w; }
 	int GetHeight() const { return GetRect().h; }
 
+	Renderer & GetRenderer() { return renderer; }
 };
 
 

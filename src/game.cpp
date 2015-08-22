@@ -22,6 +22,14 @@ Game::Game(std::string data_path, SDL_Window *window)
 , title_text(renderer, title_font, "You are the Monster!", colour_red)
 , sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow)
 
+
+, terrain(renderer, data_path+"terrain.xcf")
+
+, tile1(terrain, 32, 0, 0, 1, 1)
+, tile2(terrain, 32, 1, 0, 1, 1)
+, tile3(terrain, 32, 2, 0, 1, 1)
+, tile4(terrain, 32, 3, 0, 1, 1)
+
 {
 
 }
@@ -33,6 +41,7 @@ void Game::Update(float dt)
 }
 
 
+
 void Game::Render()
 {
 	renderer.SetDrawColour(colour_background);
@@ -40,8 +49,20 @@ void Game::Render()
 
 	renderer.SetDrawColour(colour_white);
 
+	for (int x = 0; x< 20; x++)
+	{
+		for (int y=0; y < 10; y++)
+		{
+			tile1.Render(x * 32* 2, y * 32 * 2, 2);
+		}
+	}
+
+
 	title_text.Render(50, 50);
 	sub_title_text.Render(50, 50 + title_text.GetHeight());
+
+
+
 
 	renderer.Present();
 }

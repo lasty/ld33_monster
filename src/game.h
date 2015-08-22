@@ -9,6 +9,7 @@
 #include "renderer.h"
 #include "font.h"
 #include "text.h"
+#include "tile.h"
 
 // SDL includes
 #include <SDL_events.h>
@@ -45,6 +46,16 @@ public:
 
 	Text title_text;
 	Text sub_title_text;
+
+
+	Surface terrain;
+
+	Tile tile1;
+	Tile tile2;
+	Tile tile3;
+	Tile tile4;
+
+
 
 public:
 	bool GetRunning() const { return game_running; }
