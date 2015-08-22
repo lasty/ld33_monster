@@ -3,6 +3,9 @@
 
 
 // Local includes
+#include "surface.h"
+
+
 // SDL includes
 #include <SDL_render.h>
 
@@ -24,8 +27,10 @@ public:
 	void Present();
 
 
+	void Blit(Surface &surf, SDL_Rect *src, SDL_Rect *dest);
+
 public:
-	SDL_Renderer *get() { return renderer.get(); }
+	SDL_Renderer *Get() { return renderer.get(); }
 
 };
 

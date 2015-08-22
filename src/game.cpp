@@ -4,9 +4,15 @@
 
 #include "game.h"
 
+SDL_Color colour_red { 255, 0, 0, 255 };
 
-Game::Game(SDL_Window *window)
-: renderer(window)
+Game::Game(std::string data_path, SDL_Window *window)
+: data_path(data_path)
+, renderer(window)
+
+
+, title_font(data_path+"fonts/Bangers/Bangers.ttf", 24)
+, title_text(renderer, title_font, "You are the Monster", colour_red)
 {
 
 }
@@ -22,6 +28,7 @@ void Game::Render()
 {
 	renderer.Clear();
 
+	renderer.Blit(title_text, nullptr, nullptr);
 
 	renderer.Present();
 }

@@ -18,14 +18,19 @@ Renderer::Renderer(SDL_Window *window)
 
 void Renderer::Clear()
 {
-	SDL_RenderClear(get());
+	SDL_RenderClear(Get());
 }
 
 
 
 void Renderer::Present()
 {
-	SDL_RenderPresent(get());
+	SDL_RenderPresent(Get());
 }
 
+
+void Renderer::Blit(Surface &surf, SDL_Rect *src, SDL_Rect *dest)
+{
+	SDL_RenderCopy(Get(), surf.GetTexture(), src, dest);
+}
 

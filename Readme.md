@@ -18,11 +18,14 @@ Will be in 3 waves, Easy/ Medium/Hard..   Each subsequent hero will have better 
 Day 1 Plan:
 
 Get SDL Framework Built
-	Window
 	Renderer
 	Event Loop
 
 Build Graphics Engine:
+	Surface/Textures
+	Colour
+	Rectangles/Sizes?
+	Text
 	Tiles
 	Sprites
 	Animation

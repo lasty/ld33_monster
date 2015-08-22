@@ -21,6 +21,7 @@
 // Standard includes
 #include <stdexcept>
 #include <memory>
+#include <fstream>
 
 
 void InitSDL2()
@@ -57,14 +58,14 @@ void QuitSDL2()
 
 
 //Create window and Game class object, run event loop
-void RunGame()
+void RunGame(std::string data_path)
 {
 	auto win_flags = SDL_WINDOW_RESIZABLE;
 
 	auto window = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>
 		{SDL_CreateWindow("LD33 Monster", 50, 50, 1200, 800, win_flags), SDL_DestroyWindow};
 
-	Game game{window.get()};
+	Game game{data_path, window.get()};
 
 	bool running = true;
 
@@ -113,15 +114,33 @@ void RunGame()
 		SDL_Delay(uint32_t(1000.0f / FPS));  //Delay to fix at FPS
 
 	}
+}
 
 
+std::string FindDataDirectory()
+{
+	for(auto path : {"", "../", "../../"} )
+	{
+		std::string path_dir = std::string(path) + "data/";
+		std::string try_path = path_dir + "data_directory.txt";
+
+		std::ifstream in{try_path.c_str()};
+		if (in)
+		{
+			return path_dir;
+		}
+	}
+
+	throw std::runtime_error("Could not locate data directory");
 }
 
 int main()
 {
 	InitSDL2();
 
-	RunGame();
+	std::string data_path = FindDataDirectory();
+
+	RunGame(data_path);
 
 
 	QuitSDL2();

@@ -7,6 +7,8 @@
 
 // Local Includes
 #include "renderer.h"
+#include "font.h"
+#include "text.h"
 
 // SDL includes
 #include <SDL_events.h>
@@ -18,9 +20,10 @@
 class Game
 {
 public:
-	Game(SDL_Window *window);
+	Game(std::string data_path, SDL_Window *window);
 
 private:
+	std::string data_path;
 	Renderer renderer;
 
 	bool game_running = true;
@@ -35,6 +38,10 @@ public:
 	void KeyUp(const SDL_KeyboardEvent &event);
 	void QuitGame();
 
+
+
+	Font title_font;
+	Text title_text;
 
 public:
 	bool GetRunning() const { return game_running; }
