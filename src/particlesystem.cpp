@@ -60,8 +60,12 @@ void ParticleSystem::Render()
 	for(auto & particle : particle_list)
 	{
 		auto pindex = particle.GetType();
+		assert(pindex >=0 and pindex < particle_types.size());
+
 		auto &ptype = particle_types.at(pindex);
 		auto frame = particle.GetFrame(ptype.size());
+
+		assert(frame >=0 and frame < ptype.size());
 
 		Sprite &particlesprite = ptype.at(frame);
 
@@ -71,7 +75,7 @@ void ParticleSystem::Render()
 }
 
 
-void ParticleSystem::AddParticleEffect(const std::string name, int x, int y, int num)
+void ParticleSystem::AddParticleEffect(const std::string name, int x, int y)
 {
 	int pindex = particle_type_map.at(name);
 
@@ -80,7 +84,7 @@ void ParticleSystem::AddParticleEffect(const std::string name, int x, int y, int
 	glm::vec2 gravity{0.0f, 800.0f};
 	float ttl = 1.0f;
 	float size = 2.0f;
-
+	int num = 10;
 
 	if (name == "dust")
 	{
@@ -97,6 +101,20 @@ void ParticleSystem::AddParticleEffect(const std::string name, int x, int y, int
 		size=1.0f;
 		ttl = 0.5f;
 		velocity_spread = 200.0f;
+		rand_initial_spread = 1.0f;
+	}
+	else if (name == "blood")
+	{
+		num = 5;
+		ttl = 0.5f;
+		gravity.y = 400.0f;
+	}
+	else if (name == "blood_pool")
+	{
+		num = 2;
+		gravity.y = 0.4f;
+		ttl = 3.0f;
+		velocity_spread = 1.0f;
 		rand_initial_spread = 1.0f;
 	}
 

@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include <memory>
 #include <fstream>
+#include <iostream>
 
 
 void InitSDL2()
@@ -68,6 +69,10 @@ void RunGame(std::string data_path)
 	Game game{data_path, window.get()};
 
 	bool running = true;
+	Uint32 last_time = SDL_GetTicks();
+
+	Uint32 fps_timer = SDL_GetTicks();
+	int fps_frames = 0;
 
 	while(running and game.GetRunning())
 	{
@@ -99,9 +104,24 @@ void RunGame(std::string data_path)
 
 		// Update
 
-		//TODO calc frame times
-		const float FPS = 30;
-		float dt = 1.0f / FPS;
+		Uint32 this_time = SDL_GetTicks();
+
+		float dt = (this_time - last_time) / 1000.0f;
+		last_time = this_time;
+
+		//const float FPS = 30;
+		//float dt = 1.0f / FPS;
+
+		fps_frames++;
+		if (this_time > fps_timer + 1000)
+		{
+
+			std::cout << "FPS: " << fps_frames << std::endl;
+
+			fps_frames = 0;
+			fps_timer = this_time;
+		}
+
 
 		game.Update(dt);
 
@@ -111,7 +131,7 @@ void RunGame(std::string data_path)
 		game.Render();
 
 
-		SDL_Delay(uint32_t(1000.0f / FPS));  //Delay to fix at FPS
+		SDL_Delay(1);  //To prevent too high FPS
 
 	}
 }

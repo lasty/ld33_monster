@@ -4,7 +4,8 @@
 
 #include "renderer.h"
 
-const auto renderer_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+//const auto renderer_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+const auto renderer_flags = SDL_RENDERER_ACCELERATED;
 
 Renderer::Renderer(SDL_Window *window)
 : renderer{SDL_CreateRenderer(window, -1, renderer_flags), SDL_DestroyRenderer}

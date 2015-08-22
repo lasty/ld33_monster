@@ -115,8 +115,10 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 
 	if (event.keysym.sym == SDLK_SPACE)
 	{
-		particle_system.AddParticleEffect("dust", 200, 200, 10);
-		particle_system.AddParticleEffect("spark", 400, 200, 100);
+		particle_system.AddParticleEffect("dust", 200, 200);
+		particle_system.AddParticleEffect("spark", 400, 200);
+		particle_system.AddParticleEffect("blood", 200, 400);
+		particle_system.AddParticleEffect("blood_pool", 400, 400);
 
 	}
 

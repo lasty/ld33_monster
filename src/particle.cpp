@@ -35,7 +35,7 @@ int Particle::GetFrame(int num_frames) const
 	int f = int((time / ttl) * num_frames);
 
 	if (f < 0) f = 0;
-	if (f > num_frames) f = num_frames;
+	if (f >= num_frames) f = (num_frames-1);
 
 	return f;
 }

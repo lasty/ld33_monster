@@ -40,7 +40,7 @@ public:
 	void Render();
 
 
-	void AddParticleEffect(const std::string name,  int x, int y, int num);
+	void AddParticleEffect(const std::string name,  int x, int y);
 
 
 };
