@@ -60,12 +60,12 @@ void ParticleSystem::Render()
 	for(auto & particle : particle_list)
 	{
 		auto pindex = particle.GetType();
-		assert(pindex >=0 and pindex < particle_types.size());
+		assert(pindex >=0 and pindex < (int)particle_types.size());
 
 		auto &ptype = particle_types.at(pindex);
 		auto frame = particle.GetFrame(ptype.size());
 
-		assert(frame >=0 and frame < ptype.size());
+		assert(frame >=0 and frame < (int)ptype.size());
 
 		Sprite &particlesprite = ptype.at(frame);
 

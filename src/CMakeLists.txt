@@ -9,7 +9,11 @@ set(SOURCE_FILES
         font.cpp font.h
         colour.cpp colour.h
         tile.cpp tile.h
-        sprite.cpp sprite.h spritesheet.cpp spritesheet.h particle.cpp particle.h particlesystem.cpp particlesystem.h)
+        sprite.cpp sprite.h
+        spritesheet.cpp spritesheet.h
+        particle.cpp particle.h
+        particlesystem.cpp particlesystem.h
+        world.cpp world.h)
 
 add_executable(ld33_monster ${SOURCE_FILES})
 

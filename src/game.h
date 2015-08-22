@@ -12,6 +12,7 @@
 #include "tile.h"
 #include "spritesheet.h"
 #include "particlesystem.h"
+#include "world.h"
 
 // SDL includes
 #include <SDL_events.h>
@@ -50,13 +51,6 @@ public:
 	Text sub_title_text;
 
 
-	Surface terrain;
-
-	Tile tile1;
-	Tile tile2;
-	Tile tile3;
-	Tile tile4;
-
 
 	SpriteSheet sprite_sheet;
 	int frame = 0;
@@ -64,6 +58,9 @@ public:
 
 
 	ParticleSystem particle_system;
+
+
+	World world;
 
 
 public:

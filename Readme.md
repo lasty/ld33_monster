@@ -19,7 +19,6 @@ Day 1 Plan:
 
 
 Build Graphics Engine:
-	Particles
 	Animation
 	Collision Detection
 		Rectangles/Sizes?

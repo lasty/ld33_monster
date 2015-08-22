@@ -13,7 +13,7 @@ Colour colour_red { "red" };
 Colour colour_yellow { "yellow" };
 Colour colour_white { "white" };
 
-Colour colour_background { 0.1f, 0.2f, 0.3f, 1.0f };
+Colour colour_background { 0.0f, 0.0f, 0.0f, 1.0f };
 
 std::vector<std::string> frame_names { "bat1", "bat2", "bat3", "bat4" };
 //std::vector<std::string> frame_names { "snake1", "snake2", "snake3", "snake4", "snake5", "snake6" };
@@ -42,22 +42,19 @@ Game::Game(std::string data_path, SDL_Window *window)
 , sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow)
 
 
-, terrain(renderer, data_path+"terrain.xcf")
-
-, tile1(terrain, 32, 0, 0, 1, 1)
-, tile2(terrain, 32, 1, 0, 1, 1)
-, tile3(terrain, 32, 2, 0, 1, 1)
-, tile4(terrain, 32, 3, 0, 1, 1)
-
 , sprite_sheet(renderer, data_path)
 
 
 , particle_system(renderer, data_path)
 
+, world(renderer, data_path)
+
 {
 
-}
+	world.RandomMap(10, 5);
 
+
+}
 
 
 
@@ -84,13 +81,9 @@ void Game::Render()
 
 	renderer.SetDrawColour(colour_white);
 
-	for (int x = 0; x< 20; x++)
-	{
-		for (int y=0; y < 10; y++)
-		{
-			tile1.Render(x * 32* 2, y * 32 * 2, 2);
-		}
-	}
+
+	world.Render();
+
 
 
 	title_text.Render(50, 50);
@@ -119,7 +112,11 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 		particle_system.AddParticleEffect("spark", 400, 200);
 		particle_system.AddParticleEffect("blood", 200, 400);
 		particle_system.AddParticleEffect("blood_pool", 400, 400);
+	}
 
+	if (event.keysym.sym == SDLK_n)
+	{
+		world.RandomMap(40, 20);
 	}
 
 }
