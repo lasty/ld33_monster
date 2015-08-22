@@ -36,8 +36,8 @@ void Widget::AlignInside(const SDL_Rect parent, int x, int y)
 		y = parent.h - rect.h;
 	}
 
-	rect.x = x;
-	rect.y = y;
+	rect.x = x + parent.x;
+	rect.y = y + parent.y;
 }
 
 
@@ -76,6 +76,17 @@ void Widget::AlignWith(const Widget &sibling, int x, int y)
 }
 
 
+void Widget::AlignOutside(const Widget &sibling, int border)
+{
+	const SDL_Rect &other = sibling.GetRect();
+
+	rect.w = other.w + border * 2;
+	rect.h = other.h + border * 2;
+	rect.x = other.x - border;
+	rect.y = other.y - border;
+}
+
+
 bool Widget::PointInRect(int x, int y) const
 {
 	SDL_Point pp{x, y};
@@ -90,10 +101,11 @@ bool Widget::PointInRect(int x, int y) const
 ////////////////////////////////////////////////////////////////////////////////
 
 
-Border::Border(Renderer &renderer, SDL_Rect rect, Colour colour, int width)
+Border::Border(Renderer &renderer, SDL_Rect rect, Colour colour, Colour fill_colour, bool filled)
 :Widget(renderer, rect)
 , colour(colour)
-, line_width(width)
+, fill_colour(fill_colour)
+, filled(filled)
 {
 
 }
@@ -101,6 +113,13 @@ Border::Border(Renderer &renderer, SDL_Rect rect, Colour colour, int width)
 
 void Border::Render()
 {
+	if (filled)
+	{
+		renderer.SetDrawColour(fill_colour);
+
+		SDL_RenderFillRect(renderer.Get(), &rect);
+	}
+
 	renderer.SetDrawColour(colour);
 
 	SDL_RenderDrawRect(renderer.Get(), &rect);
@@ -129,19 +148,44 @@ void Label::Render()
 ////////////////////////////////////////////////////////////////////////////////
 
 
-Button::Button(Renderer &renderer, SDL_Rect rect, Font &font, const std::string &text, Colour border_colour, Colour text_colour)
+Button::Button(Renderer &renderer, SDL_Rect rect, Font &font, const std::string &text, Colour border_colour, Colour border_fill, Colour text_colour)
 :Widget(renderer, rect)
-, border(renderer, rect, border_colour, 1)
+, border(renderer, rect, border_colour, border_fill, true)
 , label(renderer, font, text, text_colour, rect.x, rect.y)
 {
-
+	SetRects();
+	rect.w =label.GetRect().w;
+	rect.h = label.GetRect().h;
 }
 
 void Button::Render()
 {
-
 	border.Render();
 	label.Render();
+}
+
+void Button::SetRects()
+{
+	label.AlignInside(rect, 0, 0);
+	border.AlignOutside(label, 1);
+}
+
+void Button::AlignInside(const SDL_Rect parent, int x, int y)
+{
+	Widget::AlignInside(parent, x, y);
+	SetRects();
+}
+
+void Button::AlignWith(const Widget &sibling, int x, int y)
+{
+	Widget::AlignWith(sibling, x, y);
+	SetRects();
+}
+
+void Button::AlignOutside(const Widget &sibling, int border)
+{
+	Widget::AlignOutside(sibling, border);
+	SetRects();
 }
 
 

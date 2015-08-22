@@ -13,6 +13,8 @@ Colour colour_red { "red" };
 Colour colour_yellow { "yellow" };
 Colour colour_white { "white" };
 
+Colour border_background { 1.0f, 1.0f, 1.0f, 0.1f };
+
 Colour colour_background { 0.1f, 0.2f, 0.3f, 1.0f };
 
 
@@ -26,10 +28,10 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 , title_text(renderer, title_font, "You are the Monster!", colour_red, 50, 50)
 , sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow, 50, 250)
-
+, title_border(renderer, {}, colour_white, border_background, true)
+, test_button(renderer, {}, sub_title_font, "Test Button", colour_white, border_background, colour_yellow)
 
 , sprite_sheet(renderer, data_path)
-
 
 , particle_system(renderer, data_path)
 
@@ -59,8 +61,11 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 void Game::SetupGUI()
 {
+	gui.AddWidget(title_border);
 	gui.AddWidget(title_text);
 	gui.AddWidget(sub_title_text);
+
+	gui.AddWidget(test_button);
 
 	AlignGUI();
 }
@@ -69,8 +74,11 @@ void Game::SetupGUI()
 void Game::AlignGUI()
 {
 	title_text.AlignInside(GetRect(), 0, 50);
+	title_border.AlignOutside(title_text, 10);
 
-	sub_title_text.AlignWith(title_text, 0, 1);
+	sub_title_text.AlignWith(title_border, 0, 1);
+
+	test_button.AlignWith(sub_title_text, 0, 10);
 
 }
 

@@ -14,6 +14,9 @@ Renderer::Renderer(SDL_Window *window)
 	{
 		throw std::runtime_error("Could not create SDL Renderer");
 	}
+
+	SDL_SetRenderDrawBlendMode(Get(), SDL_BLENDMODE_BLEND);
+
 }
 
 

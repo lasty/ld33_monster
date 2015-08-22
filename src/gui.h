@@ -37,6 +37,7 @@ public:
 
 	virtual void AlignInside(const SDL_Rect parent, int x, int y);
 	virtual void AlignWith(const Widget &sibling, int x, int y);
+	virtual void AlignOutside(const Widget &sibling, int border);
 
 
 
@@ -57,11 +58,12 @@ public:
 class Border : public Widget
 {
 public:
-	Border(Renderer &renderer, SDL_Rect rect, Colour colour, int width);
+	Border(Renderer &renderer, SDL_Rect rect, Colour colour, Colour fill_colour, bool filled);
 
 private:
 	Colour colour;
-	int line_width;
+	Colour fill_colour;
+	bool filled;
 
 public:
 	void Render() override;
@@ -90,14 +92,23 @@ public:
 
 class Button : public Widget
 {
-	Button(Renderer &renderer, SDL_Rect rect, Font &font, const std::string &text, Colour border_colour, Colour text_colour);
+public:
+	Button(Renderer &renderer, SDL_Rect rect, Font &font, const std::string &text, Colour border_colour, Colour border_fill, Colour text_colour);
 
 private:
 	Border border;
 	Label label;
 
+	void SetRects();
+
 public:
 	void Render() override;
+
+	void AlignInside(const SDL_Rect parent, int x, int y) override;
+	void AlignWith(const Widget &sibling, int x, int y) override;
+	void AlignOutside(const Widget &sibling, int border) override;
+
+
 
 };
 

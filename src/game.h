@@ -56,8 +56,8 @@ public:
 
 	Label title_text;
 	Label sub_title_text;
-
-
+	Border title_border;
+	Button test_button;
 
 	SpriteSheet sprite_sheet;
 
