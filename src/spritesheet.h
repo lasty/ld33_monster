@@ -9,8 +9,10 @@
 #include "surface.h"
 #include "sprite.h"
 #include "renderer.h"
+#include "animatedsprite.h"
 
 #include <map>
+#include <vector>
 
 
 class SpriteSheet
@@ -23,13 +25,14 @@ private:
 	Renderer &renderer;
 	Surface sprites1;
 
-	std::map<std::string, Sprite> spritelist;
+	std::map<std::string, Animation> spritelist;
 
 	void SetupSprites();
 
 public:
 
-	Sprite & GetSprite(const std::string name);
+	Animation & GetAnimation(const std::string &name);
+	AnimatedSprite GetSprite(const std::string &name);
 
 
 };

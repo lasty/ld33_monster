@@ -13,9 +13,9 @@ Colour colour_red { "red" };
 Colour colour_yellow { "yellow" };
 Colour colour_white { "white" };
 
-Colour colour_background { 0.0f, 0.0f, 0.0f, 1.0f };
+Colour colour_background { 0.1f, 0.2f, 0.3f, 1.0f };
 
-std::vector<std::string> frame_names { "bat1", "bat2", "bat3", "bat4" };
+//std::vector<std::string> frame_names { "bat1", "bat2", "bat3", "bat4" };
 //std::vector<std::string> frame_names { "snake1", "snake2", "snake3", "snake4", "snake5", "snake6" };
 //std::vector<std::string> frame_names { "hero1", "hero2", "hero3", "hero4", "hero5", "hero6", "hero7", "hero8" };
 
@@ -53,6 +53,17 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 	world.RandomMap(10, 5);
 
+	bat = sprite_sheet.GetSprite("bat");
+
+	rock = sprite_sheet.GetSprite("rock");
+	rock_break = sprite_sheet.GetSprite("rock_break");
+
+	spikes = sprite_sheet.GetSprite("spikes");
+	snake = sprite_sheet.GetSprite("snake");
+
+	bag = sprite_sheet.GetSprite("bag");
+
+	hero = sprite_sheet.GetSprite("hero");
 
 }
 
@@ -61,12 +72,16 @@ Game::Game(std::string data_path, SDL_Window *window)
 void Game::Update(float dt)
 {
 
-	sprite_frame -= dt;
-	if (sprite_frame < 0.0f)
-	{
-		sprite_frame = 0.2f;
-		frame = (frame + 1) % frame_names.size();
-	}
+	bat.Update(dt);
+	rock.Update(dt);
+	rock_break.Update(dt);
+
+	spikes.Update(dt);
+	snake.Update(dt);
+	bag.Update(dt);
+
+	hero.Update(dt);
+
 
 	particle_system.Update(dt);
 
@@ -90,10 +105,15 @@ void Game::Render()
 	sub_title_text.Render(50, 50 + title_text.GetHeight());
 
 
-	Sprite &s = sprite_sheet.GetSprite(frame_names.at(frame));
+	bat.Render(200, 200, 4);
+	rock.Render(300, 200, 4);
+	rock_break.Render(400, 200, 4);
 
-	s.Render(200, 200, 4);
+	snake.Render(500, 200, 4);
+	bag.Render(600, 200, 4);
 
+	hero.Render(200, 400, 4);
+	spikes.Render(400, 400, 4);
 
 	particle_system.Render();
 

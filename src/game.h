@@ -53,8 +53,16 @@ public:
 
 
 	SpriteSheet sprite_sheet;
-	int frame = 0;
-	float sprite_frame = 0.2f;
+
+	AnimatedSprite bat;
+	AnimatedSprite rock;
+	AnimatedSprite rock_break;
+
+	AnimatedSprite spikes;
+	AnimatedSprite snake;
+	AnimatedSprite bag;
+
+	AnimatedSprite hero;
 
 
 	ParticleSystem particle_system;
