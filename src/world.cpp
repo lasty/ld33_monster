@@ -173,11 +173,11 @@ void World::Render(Camera &cam)
 	{
 		for (int y=0; y < height; y++)
 		{
-			SDL_Point tile_pos = cam.WorldToScreen(x*32, y*32);
+			SDL_Point tile_pos{x*32, y*32};
 
 			TileDef & def = GetTile(x, y);
 			assert(def.tile);
-			def.tile->Render(tile_pos.x, tile_pos.y, cam.zoom);
+			def.tile->Render(tile_pos.x, tile_pos.y, cam);
 		}
 	}
 

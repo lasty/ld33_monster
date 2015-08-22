@@ -15,6 +15,10 @@ Colour colour_white { "white" };
 
 Colour border_background { 1.0f, 1.0f, 1.0f, 0.1f };
 
+Colour button_border { 0.4f, 0.5f, 0.6f, 1.0f };
+Colour button_background { 0.1f, 0.2f, 0.3f, 0.5f };
+Colour button_text { 0.9f, 0.8f, 0.7f, 1.0f };
+
 Colour colour_background { 0.1f, 0.2f, 0.3f, 1.0f };
 
 
@@ -25,11 +29,12 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 , title_font(data_path+"fonts/Bangers/Bangers.ttf", 24 * 4)
 , sub_title_font(data_path+"fonts/Bitter/Bitter-Regular.ttf", 24)
+, small_font(data_path+"fonts/SourceSansPro/SourceSansPro-Regular.ttf", 14)
 
 , title_text(renderer, title_font, "You are the Monster!", colour_red, 50, 50)
 , sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow, 50, 250)
 , title_border(renderer, {}, colour_white, border_background, true)
-, test_button(renderer, {}, sub_title_font, "Test Button", colour_white, border_background, colour_yellow)
+, test_button(renderer, {}, small_font, "Test Button", button_border, button_background, button_text)
 
 , sprite_sheet(renderer, data_path)
 
@@ -55,6 +60,9 @@ Game::Game(std::string data_path, SDL_Window *window)
 	hero = sprite_sheet.GetSprite("hero");
 
 	SetupGUI();
+
+	LoadLevel(1);
+
 
 }
 
@@ -86,10 +94,10 @@ void Game::AlignGUI()
 void Game::Update(float dt)
 {
 	//int pan_speed = 1;
-	if (pan_left) camera.PanCamera(-1, 0);
-	if (pan_right) camera.PanCamera(1, 0);
-	if (pan_up) camera.PanCamera(0, -1);
-	if (pan_down) camera.PanCamera(0, 1);
+	if (pan_left) world_camera.PanCamera(-1, 0);
+	if (pan_right) world_camera.PanCamera(1, 0);
+	if (pan_up) world_camera.PanCamera(0, -1);
+	if (pan_down) world_camera.PanCamera(0, 1);
 
 
 	bat.Update(dt);
@@ -102,6 +110,7 @@ void Game::Update(float dt)
 
 	hero.Update(dt);
 
+	world_camera.Update(dt);
 
 	if (painting) { PasteSelectedTile(); }
 
@@ -119,7 +128,7 @@ void Game::Render()
 	renderer.SetDrawColour(colour_white);
 
 
-	world.Render(camera);
+	world.Render(world_camera);
 
 
 	bat.Render(200, 200, 4);
@@ -204,10 +213,10 @@ void Game::MouseMove(const SDL_MouseMotionEvent &event)
 {
 	if (pan_camera)
 	{
-		camera.PanCamera(-event.xrel, -event.yrel);
+		world_camera.PanCamera(-event.xrel, -event.yrel);
 	}
 
-	SDL_Point worldpos = camera.ScreenToWorld(event.x, event.y);
+	SDL_Point worldpos = world_camera.ScreenToWorld(event.x, event.y);
 	world.HighlightTile(worldpos);
 
 }
@@ -234,4 +243,18 @@ void Game::SetSelectedTile(const std::string &string)
 void Game::PasteSelectedTile()
 {
 	world.PasteTile(selected_tile);
+}
+
+void Game::LoadLevel(int i)
+{
+	world.Load(data_path+"tilemap.txt");
+
+	world_camera.offset_x = -32;
+	world_camera.offset_y = -32;
+	world_camera.SetZoom(4);
+}
+
+void Game::MouseWheel(const SDL_MouseWheelEvent &event)
+{
+	world_camera.ZoomCamera(event.y / 4.0f);
 }

@@ -95,6 +95,9 @@ void RunGame(std::string data_path)
 					game.MouseUp(event.button);
 					break;
 
+				case SDL_MOUSEWHEEL:
+					game.MouseWheel(event.wheel);
+					break;
 
 				case SDL_KEYDOWN:
 					if (event.key.keysym.sym == SDLK_ESCAPE) { running = false; }

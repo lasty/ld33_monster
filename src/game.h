@@ -62,6 +62,7 @@ public:
 
 	Font title_font;
 	Font sub_title_font;
+	Font small_font;
 
 	GUI gui;
 
@@ -86,15 +87,16 @@ public:
 	ParticleSystem particle_system;
 
 
-	Camera camera;
+	Camera screen_camera;
+	Camera world_camera;
 
 	World world;
 
 
 public:
 
-	SDL_Point ScreenToWorld(int x, int y) { return camera.ScreenToWorld(x, y); }
-	SDL_Point WorldToScreen(int x, int y) { return camera.WorldToScreen(x, y); }
+	SDL_Point ScreenToWorld(int x, int y) { return world_camera.ScreenToWorld(x, y); }
+	SDL_Point WorldToScreen(int x, int y) { return world_camera.WorldToScreen(x, y); }
 
 
 
@@ -111,6 +113,10 @@ public:
 
 
 	void PasteSelectedTile();
+
+	void LoadLevel(int i);
+
+	void MouseWheel(const SDL_MouseWheelEvent &event);
 };
 
 

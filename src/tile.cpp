@@ -22,13 +22,15 @@ void Tile::Render(int x, int y)
 	dest_rect.y = y;
 
 	renderer.Blit(surface, &src_rect, &dest_rect);
-
 }
 
 
-void Tile::Render(int x, int y, int zoom)
+void Tile::Render(int x, int y, Camera &cam)
 {
-	SDL_Rect dest{x, y, dest_rect.w * zoom, dest_rect.h * zoom};
+	dest_rect.x = x;
+	dest_rect.y = y;
+
+	SDL_Rect dest = cam.WorldToScreen(dest_rect);
 
 	renderer.Blit(surface, &src_rect, &dest);
 }

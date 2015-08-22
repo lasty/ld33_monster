@@ -14,21 +14,18 @@ Will be in 3 waves, Easy/ Medium/Hard..   Each subsequent hero will have better 
 
 
 
-Day 1 Plan:
+Day 2 Plan:
+
 
 Build Graphics Engine:
+	Entities and/or components
 	Collision Detection
 		Rectangles/Sizes?
 	Physics
+	World Camera Zoom, Culling
 
-
-Placeholder Sounds:
-	NotSure
 
 Level Editor:
-	World Camera Zoom, Culling
-	Block Place/Select
-	Load and Save TileMap
 	Load and Save Entities
 
 
@@ -39,18 +36,16 @@ AI Engine:
 	Hero AI
 
 Main mechanic:  (Subset of Level Editor?)
+	HUD for buy system
+	HUD for money/time/other
 	Buy/Place traps
 	Buy/Place monsters
 	Play/Pause buttons
 
 
-Placeholder Music?
-	NotSure
-
-
-Day 2 Plan:
 
 Menu System
+	Main Menu
 	Level Selector
 	Editor
 	Quit, etc
@@ -60,6 +55,12 @@ Replace Placeholders:
 	Graphics
 	Sounds
 
+Placeholder Sounds:
+	NotSure
+
+
+
+If More Time Plan:
 
 Polish:
 	More Monster Types
@@ -68,6 +69,8 @@ Polish:
 	More Levels
 	More Heroes/Hero AI
 
+Placeholder Music?
+	NotSure
 
 Stretch Goals:
 	Achievements

@@ -7,6 +7,7 @@
 
 
 #include "surface.h"
+#include "camera.h"
 
 
 class Tile
@@ -25,7 +26,7 @@ private:
 public:
 
 	void Render(int x, int y);
-	void Render(int x, int y, int zoom);
+	void Render(int x, int y, Camera &cam);
 
 };
 
