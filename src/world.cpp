@@ -116,15 +116,17 @@ void World::Update(float dt)
 
 }
 
-void World::Render()
+void World::Render(Camera &cam)
 {
 	for (int x = 0; x< width; x++)
 	{
 		for (int y=0; y < height; y++)
 		{
+			SDL_Point tile_pos = cam.WorldToScreen(x*32, y*32);
+
 			TileDef & def = GetTile(x, y);
 			assert(def.tile);
-			def.tile->Render(x * 32* 2, y * 32 * 2, 2);
+			def.tile->Render(tile_pos.x, tile_pos.y, cam.zoom);
 		}
 	}
 

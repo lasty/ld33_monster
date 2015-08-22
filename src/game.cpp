@@ -85,6 +85,12 @@ void Game::AlignGUI()
 
 void Game::Update(float dt)
 {
+	//int pan_speed = 1;
+	if (pan_left) camera.PanCamera(-1, 0);
+	if (pan_right) camera.PanCamera(1, 0);
+	if (pan_up) camera.PanCamera(0, -1);
+	if (pan_down) camera.PanCamera(0, 1);
+
 
 	bat.Update(dt);
 	rock.Update(dt);
@@ -111,9 +117,7 @@ void Game::Render()
 	renderer.SetDrawColour(colour_white);
 
 
-	world.Render();
-
-	gui.Render();
+	world.Render(camera);
 
 
 	bat.Render(200, 200, 4);
@@ -127,6 +131,10 @@ void Game::Render()
 	spikes.Render(400, 400, 4);
 
 	particle_system.Render();
+
+
+	gui.Render();
+
 
 
 	renderer.Present();
@@ -150,15 +158,44 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 		world.RandomMap(40, 20);
 	}
 
+
+	if (event.keysym.sym == SDLK_w) pan_up = true;
+	if (event.keysym.sym == SDLK_a) pan_left = true;
+	if (event.keysym.sym == SDLK_s) pan_down = true;
+	if (event.keysym.sym == SDLK_d) pan_right = true;
 }
 
 
 void Game::KeyUp(const SDL_KeyboardEvent &event)
 {
+	if (event.keysym.sym == SDLK_w) pan_up = false;
+	if (event.keysym.sym == SDLK_a) pan_left = false;
+	if (event.keysym.sym == SDLK_s) pan_down = false;
+	if (event.keysym.sym == SDLK_d) pan_right = false;
+
 
 }
 
 void Game::QuitGame()
 {
 	game_running = false;
+}
+
+
+void Game::MouseMove(const SDL_MouseMotionEvent &event)
+{
+	if (pan_camera)
+	{
+		camera.PanCamera(-event.xrel, -event.yrel);
+	}
+}
+
+void Game::MouseDown(const SDL_MouseButtonEvent &event)
+{
+	pan_camera = true;
+}
+
+void Game::MouseUp(const SDL_MouseButtonEvent &event)
+{
+	pan_camera = false;
 }

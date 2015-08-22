@@ -8,6 +8,7 @@
 #include "sprite.h"
 #include "tile.h"
 #include "renderer.h"
+#include "camera.h"
 
 
 // Standard includes
@@ -76,7 +77,7 @@ public:
 
 
 	void Update(float dt);
-	void Render();
+	void Render(Camera &cam);
 
 };
 

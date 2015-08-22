@@ -83,9 +83,18 @@ void RunGame(std::string data_path)
 		{
 			switch (event.type)
 			{
-				case SDL_QUIT:
-					running = false;
+				case SDL_MOUSEMOTION:
+					game.MouseMove(event.motion);
 					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					game.MouseDown(event.button);
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					game.MouseUp(event.button);
+					break;
+
 
 				case SDL_KEYDOWN:
 					if (event.key.keysym.sym == SDLK_ESCAPE) { running = false; }
@@ -95,6 +104,10 @@ void RunGame(std::string data_path)
 
 				case SDL_KEYUP:
 					game.KeyUp(event.key);
+					break;
+
+				case SDL_QUIT:
+					running = false;
 					break;
 
 

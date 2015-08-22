@@ -34,6 +34,12 @@ private:
 
 	bool game_running = true;
 
+	bool pan_camera = false;
+	bool pan_left = false;
+	bool pan_right = false;
+	bool pan_up = false;
+	bool pan_down = false;
+
 public:
 
 	void Update(float dt);
@@ -42,6 +48,11 @@ public:
 
 	void KeyDown(const SDL_KeyboardEvent &event);
 	void KeyUp(const SDL_KeyboardEvent &event);
+
+	void MouseMove(const SDL_MouseMotionEvent &event);
+	void MouseDown(const SDL_MouseButtonEvent &event);
+	void MouseUp(const SDL_MouseButtonEvent &event);
+
 	void QuitGame();
 
 
@@ -75,10 +86,17 @@ public:
 	ParticleSystem particle_system;
 
 
+	Camera camera;
+
 	World world;
 
 
 public:
+
+	SDL_Point ScreenToWorld(int x, int y) { return camera.ScreenToWorld(x, y); }
+	SDL_Point WorldToScreen(int x, int y) { return camera.WorldToScreen(x, y); }
+
+
 	bool GetRunning() const { return game_running; }
 	const SDL_Rect& GetRect() const { return rect; }
 
