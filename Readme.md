@@ -14,12 +14,9 @@ Will be in 3 waves, Easy/ Medium/Hard..   Each subsequent hero will have better 
 
 
 
-
 Day 1 Plan:
 
-
 Build Graphics Engine:
-	Animation
 	Collision Detection
 		Rectangles/Sizes?
 	Physics
@@ -29,6 +26,7 @@ Placeholder Sounds:
 	NotSure
 
 Level Editor:
+	World Camera, Zoom, Culling
 	GUI
 	Block Place/Select
 	Load and Save TileMap

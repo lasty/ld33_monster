@@ -15,31 +15,17 @@ Colour colour_white { "white" };
 
 Colour colour_background { 0.1f, 0.2f, 0.3f, 1.0f };
 
-//std::vector<std::string> frame_names { "bat1", "bat2", "bat3", "bat4" };
-//std::vector<std::string> frame_names { "snake1", "snake2", "snake3", "snake4", "snake5", "snake6" };
-//std::vector<std::string> frame_names { "hero1", "hero2", "hero3", "hero4", "hero5", "hero6", "hero7", "hero8" };
-
-//std::vector<std::string> frame_names { "rock1", "rock2"};
-//std::vector<std::string> frame_names { "rock_break1", "rock_break2", "rock_break3", "rock_break4" };
-
-//std::vector<std::string> frame_names { "spikes1", "spikes2", "spikes3", "spikes4", "spikes5", "spikes6", "spikes7" };
-
-//std::vector<std::string> frame_names { "chest"};
-//std::vector<std::string> frame_names { "bag"};
-
-
-
 
 Game::Game(std::string data_path, SDL_Window *window)
 : data_path(data_path)
 , renderer(window)
-
+, rect{0, 0, 0, 0}
 
 , title_font(data_path+"fonts/Bangers/Bangers.ttf", 24 * 4)
 , sub_title_font(data_path+"fonts/Bitter/Bitter-Regular.ttf", 24)
 
-, title_text(renderer, title_font, "You are the Monster!", colour_red)
-, sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow)
+, title_text(renderer, title_font, "You are the Monster!", colour_red, 50, 50)
+, sub_title_text(renderer, sub_title_font, "Ludum Dare 33", colour_yellow, 50, 250)
 
 
 , sprite_sheet(renderer, data_path)
@@ -50,6 +36,7 @@ Game::Game(std::string data_path, SDL_Window *window)
 , world(renderer, data_path)
 
 {
+	SDL_GetWindowSize(window, &rect.w, &rect.h);
 
 	world.RandomMap(10, 5);
 
@@ -65,8 +52,27 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 	hero = sprite_sheet.GetSprite("hero");
 
+	SetupGUI();
+
 }
 
+
+void Game::SetupGUI()
+{
+	gui.AddWidget(title_text);
+	gui.AddWidget(sub_title_text);
+
+	AlignGUI();
+}
+
+
+void Game::AlignGUI()
+{
+	title_text.AlignInside(GetRect(), 0, 50);
+
+	sub_title_text.AlignWith(title_text, 0, 1);
+
+}
 
 
 void Game::Update(float dt)
@@ -99,10 +105,7 @@ void Game::Render()
 
 	world.Render();
 
-
-
-	title_text.Render(50, 50);
-	sub_title_text.Render(50, 50 + title_text.GetHeight());
+	gui.Render();
 
 
 	bat.Render(200, 200, 4);

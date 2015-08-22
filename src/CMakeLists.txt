@@ -13,7 +13,7 @@ set(SOURCE_FILES
         spritesheet.cpp spritesheet.h
         particle.cpp particle.h
         particlesystem.cpp particlesystem.h
-        world.cpp world.h animatedsprite.cpp animatedsprite.h)
+        world.cpp world.h animatedsprite.cpp animatedsprite.h gui.cpp gui.h)
 
 add_executable(ld33_monster ${SOURCE_FILES})
 

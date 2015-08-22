@@ -13,6 +13,7 @@
 #include "spritesheet.h"
 #include "particlesystem.h"
 #include "world.h"
+#include "gui.h"
 
 // SDL includes
 #include <SDL_events.h>
@@ -29,6 +30,7 @@ public:
 private:
 	std::string data_path;
 	Renderer renderer;
+	SDL_Rect rect;
 
 	bool game_running = true;
 
@@ -43,12 +45,17 @@ public:
 	void QuitGame();
 
 
+	void SetupGUI();
+	void AlignGUI();
+
 
 	Font title_font;
 	Font sub_title_font;
 
-	Text title_text;
-	Text sub_title_text;
+	GUI gui;
+
+	Label title_text;
+	Label sub_title_text;
 
 
 
@@ -73,6 +80,7 @@ public:
 
 public:
 	bool GetRunning() const { return game_running; }
+	const SDL_Rect& GetRect() const { return rect; }
 
 };
 
