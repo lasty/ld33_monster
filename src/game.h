@@ -10,6 +10,7 @@
 #include "font.h"
 #include "text.h"
 #include "tile.h"
+#include "spritesheet.h"
 
 // SDL includes
 #include <SDL_events.h>
@@ -56,6 +57,9 @@ public:
 	Tile tile4;
 
 
+	SpriteSheet sprite_sheet;
+	int frame = 0;
+	float sprite_frame = 0.2f;
 
 public:
 	bool GetRunning() const { return game_running; }
