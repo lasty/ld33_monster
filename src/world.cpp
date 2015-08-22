@@ -8,6 +8,10 @@
 #include <assert.h>
 
 
+Colour cursor_colour{1.0f, 1.0f, 0.2f, 1.0f};
+Colour cursor_fill_colour{0.5f, 0.5f, 0.5f, 0.3f};
+
+
 World::World(Renderer &renderer, const std::string &data_path)
 : renderer(renderer)
 , terrain(renderer, data_path+"terrain.xcf")
@@ -15,6 +19,8 @@ World::World(Renderer &renderer, const std::string &data_path)
 , tile2(terrain, 32, 1, 0, 1, 1)
 , tile3(terrain, 32, 2, 0, 1, 1)
 , tile4(terrain, 32, 3, 0, 1, 1)
+
+, tile_cursor_border(renderer, {0, 0, 32, 32}, cursor_colour, cursor_fill_colour, true)
 {
 	SetupTileDefs();
 }
@@ -130,5 +136,29 @@ void World::Render(Camera &cam)
 		}
 	}
 
+	tile_cursor_border.Render(cam);
 }
 
+
+
+void World::HighlightTile(SDL_Point point)
+{
+	tile_cursor = GetTilePos(point);
+	tile_cursor_border.SetPos(tile_cursor.x * 32, tile_cursor.y * 32);
+
+}
+
+
+SDL_Point World::GetTilePos(SDL_Point point)
+{
+	point.x /= 32;
+	point.y /= 32;
+
+	if (point.x <0) point.x = 0;
+	if (point.x >= width) point.x = width -1;
+
+	if (point.y <0) point.y = 0;
+	if (point.y >= height) point.y = height -1;
+
+	return point;
+}

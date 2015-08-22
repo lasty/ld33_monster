@@ -110,6 +110,23 @@ Border::Border(Renderer &renderer, SDL_Rect rect, Colour colour, Colour fill_col
 
 }
 
+void Border::Render(Camera &cam)
+{
+	SDL_Rect rect2 = cam.WorldToScreen(rect);
+
+	if (filled)
+	{
+		renderer.SetDrawColour(fill_colour);
+
+		SDL_RenderFillRect(renderer.Get(), &rect2);
+	}
+
+	renderer.SetDrawColour(colour);
+
+	SDL_RenderDrawRect(renderer.Get(), &rect2);
+}
+
+
 
 void Border::Render()
 {

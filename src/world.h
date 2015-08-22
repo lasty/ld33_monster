@@ -9,6 +9,7 @@
 #include "tile.h"
 #include "renderer.h"
 #include "camera.h"
+#include "gui.h"
 
 
 // Standard includes
@@ -68,6 +69,10 @@ private:
 	Tile tile4;
 
 
+	Border tile_cursor_border;
+	SDL_Point tile_cursor{0, 0};
+
+
 public:
 
 	void RandomMap(int w, int h);
@@ -79,6 +84,9 @@ public:
 	void Update(float dt);
 	void Render(Camera &cam);
 
+	void HighlightTile(SDL_Point point);
+
+	SDL_Point GetTilePos(SDL_Point point);
 };
 
 

@@ -31,6 +31,15 @@ struct Camera
 		return p;
 	}
 
+	SDL_Rect WorldToScreen(SDL_Rect rect) const
+	{
+		rect.x -= offset_x;
+		//rect.w += offset_x;
+		rect.y -= offset_y;
+		//rect.h = zoom?
+		return rect;
+	}
+
 
 	void PanCamera(int x, int y)
 	{

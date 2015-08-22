@@ -9,6 +9,7 @@
 #include "renderer.h"
 #include "font.h"
 #include "text.h"
+#include "camera.h"
 
 
 // SDL Includes
@@ -49,6 +50,9 @@ public:
 	bool PointInRect(int x, int y) const;
 
 	const SDL_Rect & GetRect() const { return rect; }
+
+	void SetPos(int x, int y) { rect.x = x;  rect.y = y; }
+
 };
 
 
@@ -67,6 +71,8 @@ private:
 
 public:
 	void Render() override;
+	void Render(Camera &cam);
+
 };
 
 

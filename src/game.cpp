@@ -188,14 +188,18 @@ void Game::MouseMove(const SDL_MouseMotionEvent &event)
 	{
 		camera.PanCamera(-event.xrel, -event.yrel);
 	}
+
+	SDL_Point worldpos = camera.ScreenToWorld(event.x, event.y);
+	world.HighlightTile(worldpos);
+
 }
 
 void Game::MouseDown(const SDL_MouseButtonEvent &event)
 {
-	pan_camera = true;
+	if (event.button == 2 or event.button == 3) pan_camera = true;
 }
 
 void Game::MouseUp(const SDL_MouseButtonEvent &event)
 {
-	pan_camera = false;
+	if (event.button == 2 or event.button == 3) pan_camera = false;
 }
