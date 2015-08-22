@@ -51,6 +51,9 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 , sprite_sheet(renderer, data_path)
 
+
+, particle_system(renderer, data_path)
+
 {
 
 }
@@ -67,6 +70,9 @@ void Game::Update(float dt)
 		sprite_frame = 0.2f;
 		frame = (frame + 1) % frame_names.size();
 	}
+
+	particle_system.Update(dt);
+
 }
 
 
@@ -96,6 +102,8 @@ void Game::Render()
 	s.Render(200, 200, 4);
 
 
+	particle_system.Render();
+
 
 	renderer.Present();
 }
@@ -104,6 +112,13 @@ void Game::Render()
 void Game::KeyDown(const SDL_KeyboardEvent &event)
 {
 	if(event.keysym.sym == SDLK_q)  QuitGame();
+
+	if (event.keysym.sym == SDLK_SPACE)
+	{
+		particle_system.AddParticleEffect("dust", 200, 200, 10);
+		particle_system.AddParticleEffect("spark", 400, 200, 100);
+
+	}
 
 }
 

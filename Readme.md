@@ -19,18 +19,12 @@ Day 1 Plan:
 
 
 Build Graphics Engine:
-	Rectangles/Sizes?
-	Tiles
-	Sprites
-	Animation
 	Particles
+	Animation
 	Collision Detection
+		Rectangles/Sizes?
 	Physics
 
-Placeholder Graphics:
-	Tiles/Terrain
-	Hero
-	Particles?
 
 Placeholder Sounds:
 	NotSure
