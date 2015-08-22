@@ -103,6 +103,8 @@ void Game::Update(float dt)
 	hero.Update(dt);
 
 
+	if (painting) { PasteSelectedTile(); }
+
 	particle_system.Update(dt);
 
 }
@@ -158,11 +160,27 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 		world.RandomMap(40, 20);
 	}
 
+	if (event.keysym.sym == SDLK_F9)
+	{
+		world.Load(data_path+"tilemap.txt");
+	}
+
+	if (event.keysym.sym == SDLK_F5)
+	{
+		world.Save(data_path+"tilemap.txt");
+	}
+
+
 
 	if (event.keysym.sym == SDLK_w) pan_up = true;
 	if (event.keysym.sym == SDLK_a) pan_left = true;
 	if (event.keysym.sym == SDLK_s) pan_down = true;
 	if (event.keysym.sym == SDLK_d) pan_right = true;
+
+	if (event.keysym.sym == SDLK_1) SetSelectedTile("none");
+	if (event.keysym.sym == SDLK_2) SetSelectedTile("wall");
+
+
 }
 
 
@@ -196,10 +214,24 @@ void Game::MouseMove(const SDL_MouseMotionEvent &event)
 
 void Game::MouseDown(const SDL_MouseButtonEvent &event)
 {
+	if (event.button == 1) painting = true;
+
 	if (event.button == 2 or event.button == 3) pan_camera = true;
 }
 
 void Game::MouseUp(const SDL_MouseButtonEvent &event)
 {
+	if (event.button == 1) painting = false;
+
 	if (event.button == 2 or event.button == 3) pan_camera = false;
+}
+
+void Game::SetSelectedTile(const std::string &string)
+{
+	selected_tile = string;
+}
+
+void Game::PasteSelectedTile()
+{
+	world.PasteTile(selected_tile);
 }

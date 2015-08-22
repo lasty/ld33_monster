@@ -26,11 +26,11 @@ Placeholder Sounds:
 	NotSure
 
 Level Editor:
-	World Camera, Zoom, Culling
-	GUI
+	World Camera Zoom, Culling
 	Block Place/Select
 	Load and Save TileMap
 	Load and Save Entities
+
 
 AI Engine:
 	PathFinding

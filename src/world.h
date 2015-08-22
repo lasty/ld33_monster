@@ -22,6 +22,8 @@ struct TileDef
 {
 	Tile *tile;
 	bool solid;
+
+	std::string def_name;
 };
 
 
@@ -87,6 +89,8 @@ public:
 	void HighlightTile(SDL_Point point);
 
 	SDL_Point GetTilePos(SDL_Point point);
+
+	void PasteTile(const std::string &def_name);
 };
 
 

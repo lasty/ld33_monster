@@ -97,9 +97,20 @@ public:
 	SDL_Point WorldToScreen(int x, int y) { return camera.WorldToScreen(x, y); }
 
 
+
+//Level editor
+	void SetSelectedTile(const std::string &string);
+	std::string selected_tile = "none";
+	bool painting = false;
+
+
+
+// Getters
 	bool GetRunning() const { return game_running; }
 	const SDL_Rect& GetRect() const { return rect; }
 
+
+	void PasteSelectedTile();
 };
 
 

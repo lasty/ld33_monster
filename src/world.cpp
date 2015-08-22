@@ -5,6 +5,8 @@
 #include "world.h"
 
 // Standard includes
+#include <fstream>
+#include <iostream>
 #include <assert.h>
 
 
@@ -97,23 +99,66 @@ void World::RandomMap(int w, int h)
 
 void World::Load(const std::string filename)
 {
+	std::cout << "Attempting to load map ..." << std::endl;
+
+	std::ifstream in(filename);
+
+	int w = 0;
+	int h = 0;
+	in >> w >> h;
+
+	std::cout << "got width: " << w << "  and height: " << h << "..." << std::endl;
+
+	assert(w);
+	assert(h);
+	assert(in);
+
+	NewMap(w, h, GetTileDef("none"));
+
+	for(int y=0; y<height; y++)
+	{
+		for(int x=0; x<width; x++)
+		{
+			std::string def_name;
+			in >> def_name;
+
+			SetTile(x, y, GetTileDef(def_name));
+		}
+	}
+
+	std::cout << "Done!" << std::endl;
 
 }
 
+
 void World::Save(const std::string filename)
 {
+	std::cout << "Saving map..." << std::endl;
+
+	std::ofstream out(filename, std::ios::trunc);
+
+	out << width << " " << height << std::endl;
+
+	for(int y=0; y<height; y++)
+	{
+		for(int x=0; x<width; x++)
+		{
+			TileDef def = GetTile(x, y);
+			out << def.def_name << " ";
+		}
+		out << std::endl;
+	}
+	out << std::endl;
+
+	std::cout << "Saved!" << std::endl;
 
 }
 
 
 void World::SetupTileDefs()
 {
-
-	tiledef_map["wall"] = TileDef{&tile4, true};
-	tiledef_map["none"] = TileDef{&tile1, true};
-
-
-
+	tiledef_map["wall"] = TileDef{&tile4, true, "wall"};
+	tiledef_map["none"] = TileDef{&tile1, true, "none"};
 }
 
 
@@ -161,4 +206,10 @@ SDL_Point World::GetTilePos(SDL_Point point)
 	if (point.y >= height) point.y = height -1;
 
 	return point;
+}
+
+
+void World::PasteTile(const std::string &def_name)
+{
+	SetTile(tile_cursor.x, tile_cursor.y, GetTileDef(def_name));
 }
