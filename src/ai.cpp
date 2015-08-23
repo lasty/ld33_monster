@@ -42,6 +42,31 @@ const Entity &BaseAI::GetEntity() const
 }
 
 
+
+const TileDef * BaseAI::PeekMap(int x, int y) const
+{
+	auto mappos = world->GetTilePos(GetEntity().GetPositionAsPoint());
+
+	mappos.x += x;
+	mappos.y += y;
+
+	if (not GetWorld().PositionValid(mappos.x, mappos.y))
+	{
+		return nullptr;
+	}
+
+	return &GetWorld().GetTile(mappos.x, mappos.y);
+
+}
+
+Entity * BaseAI::PeekEntity(int x, int y) const
+{
+	return nullptr;
+}
+
+
+
+
 void BaseAI::SetRandomState(std::vector<std::string> list)
 {
 	int r = rand() % (int)list.size();
@@ -91,14 +116,14 @@ void SimpleMoverAI::AITick()
 
 	else if(state == "move_left")
 	{
-		SetPause(2.0f);
-		SetRandomState({"move_right"});
+		SetPause(0.5f);
+		//SetRandomState({"move_right"});
 	}
 
 	else if(state == "move_right")
 	{
-		SetPause(2.0f);
-		SetRandomState({"move_left"});
+		SetPause(0.5f);
+		//SetRandomState({"move_left"});
 	}
 
 }
@@ -114,10 +139,24 @@ void SimpleMoverAI::Update(float dt)
 	if (GetState() == "move_left")
 	{
 		pos.x -= speed * dt;
+
+		const TileDef * peek = PeekMap(-1, 0);
+		if (peek and peek->solid)
+		{
+			SetState("move_right");
+		}
+
 	}
 	else if (GetState() == "move_right")
 	{
 		pos.x += speed * dt;
+
+		const TileDef * peek = PeekMap(1, 0);
+		if (peek and peek->solid)
+		{
+			SetState("move_left");
+		}
+
 	}
 
 	GetEntity().GetPosition()->SetPosition(pos.x, pos.y);

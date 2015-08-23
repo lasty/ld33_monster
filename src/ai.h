@@ -7,6 +7,7 @@
 
 
 #include "components.h"
+#include "world.h"
 
 #include <vector>
 
@@ -30,6 +31,11 @@ protected:
 
 	Entity & GetEntity();
 	const Entity & GetEntity() const;
+
+
+	const TileDef * PeekMap(int x, int y) const;
+
+	Entity * PeekEntity(int x, int y) const;
 
 
 	void SetState(const std::string &newstate) { state = newstate; }

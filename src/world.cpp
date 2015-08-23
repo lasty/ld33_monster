@@ -44,6 +44,12 @@ unsigned World::GetIndex(int x, int y) const
 }
 
 
+bool World::PositionValid(int x, int y) const
+{
+	return (x >= 0 and x < width and y >= 0 and y < width);
+}
+
+
 void World::NewMap(int x, int y, TileDef &block)
 {
 	assert(x > 0);

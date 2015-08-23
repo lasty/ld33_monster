@@ -52,8 +52,9 @@ private:
 
 	unsigned GetIndex(int x, int y) const;
 
+
+
 	void NewMap(int x, int y, TileDef &block);
-	const TileDef & GetTile(int x, int y) const;
 	TileDef & GetTile(int x, int y);
 	void SetTile(int x, int y, TileDef &new_block);
 	TileDef & GetTileDef(const std::string &name);
@@ -94,6 +95,9 @@ public:
 
 	void SetTileCursor(SDL_Point point);
 	void SetEntityCursor(SDL_Point point);
+
+	bool PositionValid(int x, int y) const;
+	const TileDef & GetTile(int x, int y) const;
 
 	SDL_Point GetTilePos(SDL_Point point);
 
