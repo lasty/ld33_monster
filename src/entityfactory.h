@@ -26,7 +26,7 @@ private:
 
 public:
 
-	std::unique_ptr<Entity> Create(const std::string &entitydefname, int x, int y);
+	std::unique_ptr<Entity> Create(const std::string &entitydefname, World *world, int x, int y);
 
 };
 

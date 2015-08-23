@@ -14,6 +14,7 @@
 
 
 class Entity;
+class World;
 
 
 class Component
@@ -54,15 +55,18 @@ public:
 class CollisionComponent : public Component
 {
 public:
-	CollisionComponent(Entity *entity, int w, int h);
+	CollisionComponent(Entity *entity, World *world, int w, int h);
 
 private:
 	Entity *entity = nullptr;
+	World *world = nullptr;
 	SDL_Rect boundingbox;
 
 public:
 	void SetPosition(int x, int y);
 	const SDL_Rect & GetBoundingBox() const { return boundingbox; }
+
+	bool HasCollision() const;
 };
 
 

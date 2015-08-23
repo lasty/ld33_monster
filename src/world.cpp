@@ -281,7 +281,7 @@ void World::PasteEntity(const std::string &def_name)
 
 void World::SpawnEntity(const std::string &name, int x, int y)
 {
-	std::unique_ptr<Entity> e = entity_factory.Create(name, x, y);
+	std::unique_ptr<Entity> e = entity_factory.Create(name, this, x, y);
 	entity_list.push_back(std::move(e));
 }
 
@@ -291,4 +291,23 @@ void World::RemoveDeadEntities()
 	auto partition = std::remove_if(entity_list.begin(), entity_list.end(), [](auto &e){ return e->ShouldRemove(); });
 
 	entity_list.erase(partition, entity_list.end());
+}
+
+
+
+bool World::HasCollision(const SDL_Rect &boundingbox, Entity *ignore_entity)
+{
+	for(auto & entity : entity_list)
+	{
+		if (entity.get() == ignore_entity) continue;
+		if (not entity->GetCollision()) continue;
+
+		const SDL_Rect & bb2 = entity->GetCollision()->GetBoundingBox();
+		if (SDL_HasIntersection(&boundingbox, &bb2))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -100,6 +100,10 @@ public:
 	void SpawnEntity(const std::string &name, int x, int y);
 
 	void RemoveDeadEntities();
+
+
+	bool HasCollision(const SDL_Rect &boundingbox, Entity *ignore_entity);
+
 };
 
 

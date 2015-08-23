@@ -7,6 +7,8 @@
 
 #include "entity.h"
 #include "renderer.h"
+#include "world.h"
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,8 +50,9 @@ void SpriteComponent::Render(int x, int y, Camera &cam)
 
 
 
-CollisionComponent::CollisionComponent(Entity *entity, int w, int h)
+CollisionComponent::CollisionComponent(Entity *entity, World *world, int w, int h)
 : entity(entity)
+, world(world)
 {
 	boundingbox.w = w;
 	boundingbox.h = h;
@@ -67,8 +70,15 @@ void CollisionComponent::SetPosition(int x, int y)
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
+bool CollisionComponent::HasCollision() const
+{
+	if (not world) return false;
 
+	return world->HasCollision(boundingbox, entity);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 MovableComponent::MovableComponent(Entity *entity, int x, int y)
@@ -87,6 +97,8 @@ void MovableComponent::SetPosition(int x, int y)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Colour bounding_box_colour1 { "green" };
+Colour bounding_box_colour2 { "red" };
 
 DebugComponent::DebugComponent(Entity *entity, Renderer &renderer, Font &font, std::string debug_text, Colour colour)
 : entity(entity)
@@ -112,6 +124,16 @@ void DebugComponent::Render(int x, int y, Camera &cam)
 	if (entity->GetCollision())
 	{
 		SDL_Rect bb = entity->GetCollision()->GetBoundingBox();
+
+		if (entity->GetCollision()->HasCollision())
+		{
+			renderer.SetDrawColour(bounding_box_colour2);
+		}
+		else
+		{
+			renderer.SetDrawColour(bounding_box_colour1);
+		}
+
 
 		renderer.DrawRect(bb, cam);
 
