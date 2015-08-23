@@ -65,6 +65,13 @@ void World::NewMap(int x, int y, TileDef &block)
 
 }
 
+const TileDef &World::GetTile(int x, int y) const
+{
+	unsigned index = GetIndex(x, y);
+	TileDef *t = tilemap.at(index);
+	assert(t);
+	return *t;
+}
 
 TileDef &World::GetTile(int x, int y)
 {
@@ -198,7 +205,7 @@ void World::Save(const std::string filename)
 void World::SetupTileDefs()
 {
 	tiledef_map["wall"] = TileDef{&tile4, true, "wall"};
-	tiledef_map["none"] = TileDef{&tile1, true, "none"};
+	tiledef_map["none"] = TileDef{&tile1, false, "none"};
 }
 
 
@@ -294,8 +301,53 @@ void World::RemoveDeadEntities()
 }
 
 
+bool World::HasCollisionWorld(const SDL_Rect &boundingbox) const
+{
+	//Check to see if outside world boundaries
 
-bool World::HasCollision(const SDL_Rect &boundingbox, Entity *ignore_entity)
+	SDL_Rect world_rect{0, 0, 32*width, 32*height};
+	if (not SDL_HasIntersection(&boundingbox, &world_rect)) { return true; }
+
+	//Edge cases ugh There's probably a much better way to do this...
+	SDL_Rect world_rect_top{0, -32, 32 * (width), 32};
+	if (SDL_HasIntersection(&boundingbox, &world_rect_top)) { return true; }
+
+	SDL_Rect world_rect_bot{0, 32 * (height), 32 * (width), 32};
+	if (SDL_HasIntersection(&boundingbox, &world_rect_bot)) { return true; }
+
+	SDL_Rect world_rect_left{-32, 0, 32, 32 * (height)};
+	if (SDL_HasIntersection(&boundingbox, &world_rect_left)) { return true; }
+
+	SDL_Rect world_rect_right{32 * width, 0, 32, 32 * height};
+	if (SDL_HasIntersection(&boundingbox, &world_rect_right)) { return true; }
+
+
+	//Check all the tiles
+	SDL_Rect tile_rect{0,0, 32, 32};
+
+	//TODO Could be optimized to only take a few tiles into account
+	for(int x=0; x<width; x++)
+	{
+		for (int y=0; y<height; y++)
+		{
+			if (GetTile(x,y).solid)
+			{
+				tile_rect.x = 32 * x;
+				tile_rect.y = 32 * y;
+
+				if (SDL_HasIntersection(&boundingbox, &tile_rect))
+				{
+					return true;
+				}
+
+			}
+		}
+	}
+	return false;
+}
+
+
+bool World::HasCollisionEntity(const SDL_Rect &boundingbox, Entity *ignore_entity) const
 {
 	for(auto & entity : entity_list)
 	{
@@ -311,3 +363,11 @@ bool World::HasCollision(const SDL_Rect &boundingbox, Entity *ignore_entity)
 
 	return false;
 }
+
+
+bool World::HasCollisionAny(const SDL_Rect &boundingbox, Entity *ignore_entity) const
+{
+	return HasCollisionWorld(boundingbox) or HasCollisionEntity(boundingbox, ignore_entity);
+}
+
+

@@ -50,6 +50,7 @@ private:
 	unsigned GetIndex(int x, int y) const;
 
 	void NewMap(int x, int y, TileDef &block);
+	const TileDef & GetTile(int x, int y) const;
 	TileDef & GetTile(int x, int y);
 	void SetTile(int x, int y, TileDef &new_block);
 	TileDef & GetTileDef(const std::string &name);
@@ -101,8 +102,9 @@ public:
 
 	void RemoveDeadEntities();
 
-
-	bool HasCollision(const SDL_Rect &boundingbox, Entity *ignore_entity);
+	bool HasCollisionWorld(const SDL_Rect &boundingbox) const;
+	bool HasCollisionEntity(const SDL_Rect &boundingbox, Entity *ignore_entity) const;
+	bool HasCollisionAny(const SDL_Rect &boundingbox, Entity *ignore_entity) const;
 
 };
 

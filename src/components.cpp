@@ -74,7 +74,7 @@ bool CollisionComponent::HasCollision() const
 {
 	if (not world) return false;
 
-	return world->HasCollision(boundingbox, entity);
+	return world->HasCollisionAny(boundingbox, entity);
 }
 
 
