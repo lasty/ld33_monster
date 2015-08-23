@@ -354,7 +354,7 @@ bool World::HasCollisionWorld(const SDL_Rect &boundingbox) const
 }
 
 
-bool World::HasCollisionEntity(const SDL_Rect &boundingbox, Entity *ignore_entity) const
+bool World::HasCollisionEntity(const SDL_Rect &boundingbox, const Entity *ignore_entity) const
 {
 	for(auto & entity : entity_list)
 	{
@@ -372,7 +372,7 @@ bool World::HasCollisionEntity(const SDL_Rect &boundingbox, Entity *ignore_entit
 }
 
 
-bool World::HasCollisionAny(const SDL_Rect &boundingbox, Entity *ignore_entity) const
+bool World::HasCollisionAny(const SDL_Rect &boundingbox, const Entity *ignore_entity) const
 {
 	return HasCollisionWorld(boundingbox) or HasCollisionEntity(boundingbox, ignore_entity);
 }

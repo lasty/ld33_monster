@@ -110,8 +110,8 @@ public:
 	void RemoveDeadEntities();
 
 	bool HasCollisionWorld(const SDL_Rect &boundingbox) const;
-	bool HasCollisionEntity(const SDL_Rect &boundingbox, Entity *ignore_entity) const;
-	bool HasCollisionAny(const SDL_Rect &boundingbox, Entity *ignore_entity) const;
+	bool HasCollisionEntity(const SDL_Rect &boundingbox, const Entity *ignore_entity) const;
+	bool HasCollisionAny(const SDL_Rect &boundingbox, const Entity *ignore_entity) const;
 
 	void AddParticleEffect(SDL_Point point, const std::string &string);
 };

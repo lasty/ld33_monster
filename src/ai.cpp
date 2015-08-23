@@ -65,6 +65,44 @@ Entity * BaseAI::PeekEntity(int x, int y) const
 }
 
 
+SDL_Rect BaseAI::GetBoundingBox() const
+{
+	assert(GetEntity().GetCollision());
+
+	return GetEntity().GetCollision()->GetBoundingBox();
+}
+
+SDL_Rect BaseAI::GetSensorLeft() const
+{
+	SDL_Rect bb = GetBoundingBox();
+
+	//2 pixels to the left?
+	bb.x -= 2;
+	bb.w = 2;
+	return bb;
+}
+
+
+SDL_Rect BaseAI::GetSensorRight() const
+{
+	SDL_Rect bb = GetBoundingBox();
+
+	bb.x += bb.w;
+	bb.w = 2;
+	return bb;
+}
+
+
+bool BaseAI::CollidesWorld(const SDL_Rect &rect) const
+{
+	return GetWorld().HasCollisionWorld(rect);
+}
+
+
+bool BaseAI::CollidesEntities(const SDL_Rect &rect) const
+{
+	return GetWorld().HasCollisionEntity(rect, &GetEntity());
+}
 
 
 void BaseAI::SetRandomState(std::vector<std::string> list)
@@ -140,8 +178,9 @@ void SimpleMoverAI::Update(float dt)
 	{
 		pos.x -= speed * dt;
 
-		const TileDef * peek = PeekMap(-1, 0);
-		if (peek and peek->solid)
+		//const TileDef * peek = PeekMap(-1, 0);
+		//if (peek and peek->solid)
+		if(CollidesWorld(GetSensorLeft()))
 		{
 			SetState("move_right");
 		}
@@ -151,8 +190,9 @@ void SimpleMoverAI::Update(float dt)
 	{
 		pos.x += speed * dt;
 
-		const TileDef * peek = PeekMap(1, 0);
-		if (peek and peek->solid)
+		//const TileDef * peek = PeekMap(1, 0);
+		//if (peek and peek->solid)
+		if(CollidesWorld(GetSensorRight()))
 		{
 			SetState("move_left");
 		}

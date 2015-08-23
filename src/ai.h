@@ -38,6 +38,15 @@ protected:
 	Entity * PeekEntity(int x, int y) const;
 
 
+	SDL_Rect GetBoundingBox() const;
+
+	SDL_Rect GetSensorLeft() const;
+	SDL_Rect GetSensorRight() const;
+
+	bool CollidesWorld(const SDL_Rect& rect) const;
+	bool CollidesEntities(const SDL_Rect& rect) const;
+
+
 	void SetState(const std::string &newstate) { state = newstate; }
 
 
