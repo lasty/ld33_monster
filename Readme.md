@@ -13,16 +13,20 @@ Plan:
 Will be in 3 waves, Easy/ Medium/Hard..   Each subsequent hero will have better AI and Gear
 
 
+Run out of time for 48h comp.  Looks like it will be Jam or Bust :/
 
-Day 2 Plan:
+Day 3 Plan:
 
 
 AI Engine:
-	Simple moving AI (left, right, on collision)
-	PathFinding
+	Get a controller working with WASD, jump etc
+	Attach AI to controller
 	AI Goal Setting
+	PathFinding
+		Get to goal set with mouse
 	Monster AI
 	Hero AI
+
 
 Main mechanic:  (Subset of Level Editor?)
 	HUD for buy system
@@ -30,6 +34,9 @@ Main mechanic:  (Subset of Level Editor?)
 	Buy/Place traps
 	Buy/Place monsters
 	Play/Pause buttons
+	Health bars
+	Attacks
+
 
 Menu System
 	Main Menu
@@ -37,12 +44,33 @@ Menu System
 	Editor
 	Quit, etc
 
-Replace Placeholders:
+
+Assets
 	Graphics
 	Sounds
+	Music
 
-Placeholder Sounds:
-	NotSure
+
+Define heroes:
+	Easy hero
+	Medium hero
+	Hard hero
+
+Define monsters:
+	Snake
+	Bat
+
+
+Define Traps:
+	Boulder
+	Spikes
+
+Levels
+	Tutorial level
+	Easy level
+	Medium sized level
+	Hard level?
+
 
 
 If More Time Plan:
@@ -57,10 +85,6 @@ Polish:
 Optimize:
 	Optimize collision detection
 	World Camera Culling?
-
-Placeholder Music?
-	NotSure
-
 
 Stretch Goals:
 	Achievements
