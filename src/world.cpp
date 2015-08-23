@@ -46,6 +46,8 @@ void World::NewMap(int x, int y, TileDef &block)
 	assert(x > 0);
 	assert(y > 0);
 
+	entity_list.clear();
+
 	tilemap.clear();
 	tilemap.reserve(unsigned(x * y));
 	width = x;
@@ -58,6 +60,7 @@ void World::NewMap(int x, int y, TileDef &block)
 
 	assert((int)tilemap.size() == width * height);
 	assert(width * height == x * y);
+
 }
 
 
@@ -180,7 +183,7 @@ void World::Save(const std::string filename)
 
 	for(auto &ent : entity_list)
 	{
-		out << ent.x << " " << ent.y << " " << ent.name << std::endl;
+		out << ent->x << " " << ent->y << " " << ent->name << std::endl;
 	}
 
 
@@ -200,7 +203,7 @@ void World::Update(float dt)
 {
 	for(auto & entity : entity_list)
 	{
-		entity.Update(dt);
+		entity->Update(dt);
 	}
 
 	RemoveDeadEntities();
@@ -224,7 +227,7 @@ void World::Render(Camera &cam)
 
 	for(auto & entity : entity_list)
 	{
-		entity.Render(cam);
+		entity->Render(cam);
 	}
 
 
@@ -275,14 +278,14 @@ void World::PasteEntity(const std::string &def_name)
 
 void World::SpawnEntity(const std::string &name, int x, int y)
 {
-	Entity e = entity_factory.Create(name, x, y);
+	std::unique_ptr<Entity> e = entity_factory.Create(name, x, y);
 	entity_list.push_back(std::move(e));
 }
 
 
 void World::RemoveDeadEntities()
 {
-	auto partition = std::remove_if(entity_list.begin(), entity_list.end(), [](Entity &e){ return e.ShouldRemove(); });
+	auto partition = std::remove_if(entity_list.begin(), entity_list.end(), [](auto &e){ return e->ShouldRemove(); });
 
 	entity_list.erase(partition, entity_list.end());
 }

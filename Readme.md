@@ -18,15 +18,10 @@ Day 2 Plan:
 
 
 Build Graphics Engine:
-	Entities and/or components
 	Collision Detection
 		Rectangles/Sizes?
 	Physics
 	World Camera Culling?
-
-
-Level Editor:
-	Load and Save Entities
 
 
 AI Engine:

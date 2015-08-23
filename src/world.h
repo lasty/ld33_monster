@@ -70,7 +70,7 @@ private:
 	//entity stuff
 
 	EntityFactory entity_factory;
-	std::vector<Entity> entity_list;
+	std::vector<std::unique_ptr<Entity>> entity_list;
 
 	//entity cursor stuff
 	SDL_Point entity_cursor{0, 0};

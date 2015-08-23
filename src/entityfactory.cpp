@@ -16,29 +16,27 @@ EntityFactory::EntityFactory(SpriteSheet &sprite_sheet)
 }
 
 
-Entity EntityFactory::Create(const std::string &entitydefname, int x, int y)
+std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, int x, int y)
 {
-	Entity ent{entitydefname};
+	std::unique_ptr<Entity> ent{new Entity(entitydefname)};
+
+	ent->SetPos(x, y);
 
 	if (entitydefname == "snake")
 	{
-		ent.AddComponent(new SpriteComponent(sprite_sheet.GetSprite("snake")));
-		ent.SetPos(x, y);
+		ent->AddComponent(new SpriteComponent(sprite_sheet.GetSprite("snake")));
 	}
 	else if (entitydefname == "hero")
 	{
-		ent.AddComponent(new SpriteComponent(sprite_sheet.GetSprite("hero")));
-		ent.SetPos(x, y);
+		ent->AddComponent(new SpriteComponent(sprite_sheet.GetSprite("hero")));
 	}
 	else if (entitydefname == "bat")
 	{
-		ent.AddComponent(new SpriteComponent(sprite_sheet.GetSprite("bat")));
-		ent.SetPos(x, y);
+		ent->AddComponent(new SpriteComponent(sprite_sheet.GetSprite("bat")));
 	}
 	else if (entitydefname == "spikes")
 	{
-		ent.AddComponent(new SpriteComponent(sprite_sheet.GetSprite("spikes")));
-		ent.SetPos(x, y);
+		ent->AddComponent(new SpriteComponent(sprite_sheet.GetSprite("spikes")));
 	}
 
 	else
@@ -46,7 +44,6 @@ Entity EntityFactory::Create(const std::string &entitydefname, int x, int y)
 		std::cout << "Unknown entity type: " << entitydefname << std::endl;
 		throw std::runtime_error("Unknown entity type");
 	}
-
 
 	return ent;
 }

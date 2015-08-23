@@ -73,17 +73,6 @@ public:
 
 	SpriteSheet sprite_sheet;
 
-	//AnimatedSprite bat;
-	//AnimatedSprite rock;
-	//AnimatedSprite rock_break;
-	//
-	//AnimatedSprite spikes;
-	//AnimatedSprite snake;
-	//AnimatedSprite bag;
-	//
-	//AnimatedSprite hero;
-
-
 	ParticleSystem particle_system;
 
 

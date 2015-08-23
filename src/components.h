@@ -42,7 +42,10 @@ private:
 	{
 		animated_sprite.Render(x, y, zoom, cam);
 	}
-
-
 };
 
+
+class MoveableComponent : public Component
+{
+
+};

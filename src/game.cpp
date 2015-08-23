@@ -132,23 +132,9 @@ void Game::Render()
 
 	world.Render(world_camera);
 
-
-	//bat.Render(200, 200, 1, world_camera);
-	//rock.Render(300, 200, 1, world_camera);
-	//rock_break.Render(400, 200, 1, world_camera);
-	//
-	//snake.Render(500, 200, 1, world_camera);
-	//bag.Render(600, 200, 1, world_camera);
-	//
-	//hero.Render(200, 400, 1, world_camera);
-	//spikes.Render(400, 400, 1, world_camera);
-
 	particle_system.Render(screen_camera);
 
-
 	gui.Render();
-
-
 
 	renderer.Present();
 }

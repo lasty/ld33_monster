@@ -9,6 +9,8 @@
 #include "entity.h"
 #include "spritesheet.h"
 
+#include <memory>
+
 
 class EntityFactory
 {
@@ -22,7 +24,7 @@ private:
 
 public:
 
-	Entity Create(const std::string &entitydefname, int x, int y);
+	std::unique_ptr<Entity> Create(const std::string &entitydefname, int x, int y);
 
 };
 
