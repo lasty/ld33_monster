@@ -18,6 +18,7 @@ class Renderer;//#include "renderer.h"
 // Standard includes
 #include <memory>
 #include <assert.h>
+#include "camera.h"
 
 
 class Surface
@@ -50,6 +51,7 @@ public:
 
 	void Render(int x, int y);
 	void Render(int x, int y, int zoom);
+	void Render(int x, int y, float zoom, Camera &cam);
 
 
 protected:

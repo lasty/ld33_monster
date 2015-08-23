@@ -21,6 +21,11 @@
 // Standard includes
 
 
+enum class GameState{
+	menu,
+	maingame
+};
+
 
 class Game
 {
@@ -33,6 +38,7 @@ private:
 	SDL_Rect rect;
 
 	bool game_running = true;
+	GameState state = GameState::maingame;
 
 	bool pan_camera = false;
 	bool pan_left = false;

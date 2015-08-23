@@ -25,7 +25,9 @@ World::World(Renderer &renderer, const std::string &data_path, SpriteSheet &spri
 
 , tile_cursor_border(renderer, {0, 0, 32, 32}, cursor_colour, cursor_fill_colour, true)
 
-, entity_factory(sprite_sheet)
+, debug_font(data_path+"fonts/SourceSansPro/SourceSansPro-Regular.ttf", 14)
+
+, entity_factory(renderer, debug_font, sprite_sheet)
 {
 	SetupTileDefs();
 }
@@ -183,7 +185,8 @@ void World::Save(const std::string filename)
 
 	for(auto &ent : entity_list)
 	{
-		out << ent->x << " " << ent->y << " " << ent->name << std::endl;
+		SDL_Point pos = ent->GetPosition();
+		out << pos.x << " " << pos.y << " " << ent->name << std::endl;
 	}
 
 

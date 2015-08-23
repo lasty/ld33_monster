@@ -25,10 +25,16 @@ public:
 
 	std::string name;
 
-	int x = 0;
-	int y = 0;
+private:
+	//int x = 0;
+	//int y = 0;
 
 	bool alive = true;
+
+	//Common component references
+	MovableComponent * movable = nullptr;
+	CollisionComponent * collision = nullptr;
+
 
 private:
 	std::vector<std::unique_ptr<Component>> components;
@@ -37,15 +43,12 @@ public:
 	void AddComponent(Component * take_ownership);
 
 
+	SDL_Point GetPosition() const;
+	CollisionComponent * GetCollision() const { return collision; }
+
 	void Update(float dt);
 
 	void Render(Camera &cam);
-
-	void SetPos(int xx, int yy)
-	{
-		x=xx;
-		y=yy;
-	}
 
 	bool ShouldRemove() const { return not alive; }
 };

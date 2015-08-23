@@ -69,6 +69,7 @@ private:
 
 	//entity stuff
 
+	Font debug_font;
 	EntityFactory entity_factory;
 	std::vector<std::unique_ptr<Entity>> entity_list;
 

@@ -15,9 +15,11 @@
 class EntityFactory
 {
 public:
-	EntityFactory(SpriteSheet &sprite_sheet);
+	EntityFactory(Renderer &renderer, Font &debug_font, SpriteSheet &sprite_sheet);
 
 private:
+	Renderer &renderer;
+	Font &debug_font;
 	SpriteSheet &sprite_sheet;
 
 	void SetupEntityList();

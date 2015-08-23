@@ -40,6 +40,14 @@ void Renderer::SetDrawColour(const Colour &colour)
 }
 
 
+void Renderer::DrawRect(const SDL_Rect &rect, Camera &cam)
+{
+	SDL_Rect r = cam.WorldToScreen(rect);
+
+	SDL_RenderDrawRect(Get(), &r);
+}
+
+
 void Renderer::Blit(Surface &surf, SDL_Rect *src, SDL_Rect *dest)
 {
 	SDL_RenderCopy(Get(), surf.GetTexture(), src, dest);

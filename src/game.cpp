@@ -126,15 +126,20 @@ void Game::Render()
 {
 	renderer.SetDrawColour(colour_background);
 	renderer.Clear();
-
 	renderer.SetDrawColour(colour_white);
 
+	if (state == GameState::maingame)
+	{
+		world.Render(world_camera);
 
-	world.Render(world_camera);
+		particle_system.Render(screen_camera);
+	}
 
-	particle_system.Render(screen_camera);
 
-	gui.Render();
+	if (state == GameState::menu)
+	{
+		gui.Render();
+	}
 
 	renderer.Present();
 }

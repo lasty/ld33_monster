@@ -82,6 +82,17 @@ void Surface::Render(int x, int y)
 }
 
 
+void Surface::Render(int x, int y, float zoom, Camera &cam)
+{
+	SDL_Rect dest { x, y, surface_rect.w, surface_rect.h};
+	SDL_Rect cam_dest = cam.WorldToScreen(dest);
+	cam_dest.w *= zoom;
+	cam_dest.h *= zoom;
+
+	renderer.Blit(*this, &surface_rect, &cam_dest);
+}
+
+
 void Surface::SetBlend(SDL_BlendMode mode)
 {
 	SDL_SetSurfaceBlendMode(surface.get(), mode);

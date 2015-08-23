@@ -29,6 +29,9 @@ public:
 
 	void SetDrawColour(const Colour &colour);
 
+	void DrawRect(const SDL_Rect &rect, Camera &cam);
+
+
 	void Blit(Surface &surf, SDL_Rect *src, SDL_Rect *dest);
 
 public:
