@@ -8,6 +8,7 @@
 
 // Local includes
 #include "sprite.h"
+#include "camera.h"
 
 // Standard includes
 #include <vector>
@@ -37,7 +38,7 @@ private:
 public:
 	void Update(float dt);
 
-	void Render(int x, int y, int zoom);
+	void Render(int x, int y, int zoom, Camera &cam);
 
 	bool GetFinished() const { return finished; }
 

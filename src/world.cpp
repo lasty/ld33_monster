@@ -8,13 +8,14 @@
 #include <fstream>
 #include <iostream>
 #include <assert.h>
+#include <algorithm>
 
 
 Colour cursor_colour{1.0f, 1.0f, 0.2f, 1.0f};
 Colour cursor_fill_colour{0.5f, 0.5f, 0.5f, 0.3f};
 
 
-World::World(Renderer &renderer, const std::string &data_path)
+World::World(Renderer &renderer, const std::string &data_path, SpriteSheet &sprite_sheet)
 : renderer(renderer)
 , terrain(renderer, data_path+"terrain.xcf")
 , tile1(terrain, 32, 0, 0, 1, 1)
@@ -23,6 +24,8 @@ World::World(Renderer &renderer, const std::string &data_path)
 , tile4(terrain, 32, 3, 0, 1, 1)
 
 , tile_cursor_border(renderer, {0, 0, 32, 32}, cursor_colour, cursor_fill_colour, true)
+
+, entity_factory(sprite_sheet)
 {
 	SetupTileDefs();
 }
@@ -164,8 +167,14 @@ void World::SetupTileDefs()
 
 void World::Update(float dt)
 {
+	for(auto & entity : entity_list)
+	{
+		entity.Update(dt);
+	}
 
+	RemoveDeadEntities();
 }
+
 
 void World::Render(Camera &cam)
 {
@@ -181,16 +190,28 @@ void World::Render(Camera &cam)
 		}
 	}
 
+
+	for(auto & entity : entity_list)
+	{
+		entity.Render(cam);
+	}
+
+
 	tile_cursor_border.Render(cam);
 }
 
 
 
-void World::HighlightTile(SDL_Point point)
+void World::SetTileCursor(SDL_Point point)
 {
 	tile_cursor = GetTilePos(point);
 	tile_cursor_border.SetPos(tile_cursor.x * 32, tile_cursor.y * 32);
+}
 
+
+void World::SetEntityCursor(SDL_Point point)
+{
+	entity_cursor = point;
 }
 
 
@@ -212,4 +233,25 @@ SDL_Point World::GetTilePos(SDL_Point point)
 void World::PasteTile(const std::string &def_name)
 {
 	SetTile(tile_cursor.x, tile_cursor.y, GetTileDef(def_name));
+}
+
+
+void World::PasteEntity(const std::string &def_name)
+{
+	SpawnEntity(def_name, entity_cursor.x, entity_cursor.y);
+}
+
+
+void World::SpawnEntity(const std::string &name, int x, int y)
+{
+	Entity e = entity_factory.Create(name, x, y);
+	entity_list.push_back(std::move(e));
+}
+
+
+void World::RemoveDeadEntities()
+{
+	auto partition = std::remove_if(entity_list.begin(), entity_list.end(), [](Entity &e){ return e.ShouldRemove(); });
+
+	entity_list.erase(partition, entity_list.end());
 }

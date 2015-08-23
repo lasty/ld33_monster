@@ -37,7 +37,7 @@ public:
 
 	void RemoveDeadParticles();
 
-	void Render();
+	void Render(Camera &cam);
 
 
 	void AddParticleEffect(const std::string name,  int x, int y);

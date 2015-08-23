@@ -30,12 +30,12 @@ void AnimatedSprite::Update(float dt)
 	}
 }
 
-void AnimatedSprite::Render(int x, int y, int zoom)
+void AnimatedSprite::Render(int x, int y, int zoom, Camera &cam)
 {
 	assert(animation);
 	assert(frame >=0 and frame <= (int)animation->frames.size());
 
 	Sprite &sprite = animation->frames.at((unsigned)frame);
 
-	sprite.Render(x, y, zoom);
+	sprite.Render(x, y, zoom, cam);
 }

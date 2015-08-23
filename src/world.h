@@ -10,7 +10,7 @@
 #include "renderer.h"
 #include "camera.h"
 #include "gui.h"
-
+#include "entityfactory.h"
 
 // Standard includes
 #include <vector>
@@ -27,25 +27,17 @@ struct TileDef
 };
 
 
-class EntityDef
-{
-
-};
-
-
-class Entity
-{
-
-};
-
 
 class World
 {
 public:
-	World(Renderer &renderer, const std::string &data_path);
+	World(Renderer &renderer, const std::string &data_path, SpriteSheet &sprite_sheet);
 
 private:
 	Renderer &renderer;
+
+	//tilemap stuff
+
 	Surface terrain;
 
 	int width = 0;
@@ -64,15 +56,24 @@ private:
 
 	void SetupTileDefs();
 
-
 	Tile tile1;
 	Tile tile2;
 	Tile tile3;
 	Tile tile4;
 
 
+	//tile cursor stuff
 	Border tile_cursor_border;
 	SDL_Point tile_cursor{0, 0};
+
+
+	//entity stuff
+
+	EntityFactory entity_factory;
+	std::vector<Entity> entity_list;
+
+	//entity cursor stuff
+	SDL_Point entity_cursor{0, 0};
 
 
 public:
@@ -86,11 +87,18 @@ public:
 	void Update(float dt);
 	void Render(Camera &cam);
 
-	void HighlightTile(SDL_Point point);
+	void SetTileCursor(SDL_Point point);
+	void SetEntityCursor(SDL_Point point);
 
 	SDL_Point GetTilePos(SDL_Point point);
 
 	void PasteTile(const std::string &def_name);
+	void PasteEntity(const std::string &def_name);
+
+
+	void SpawnEntity(const std::string &name, int x, int y);
+
+	void RemoveDeadEntities();
 };
 
 

@@ -21,7 +21,7 @@ Sprite::Sprite(Surface &surface, int size, int x, int y, int w, int h)
 }
 
 
-void Sprite::Render(int x, int y, int zoom)
+void Sprite::Render(int x, int y, int zoom, Camera &cam)
 {
 	assert(renderer);
 	assert(surface);
@@ -31,6 +31,8 @@ void Sprite::Render(int x, int y, int zoom)
 	dest_rect.w = src_rect.w * zoom;
 	dest_rect.h = src_rect.h * zoom;
 
-	renderer->Blit(*surface, &src_rect, &dest_rect);
+	SDL_Rect dest = cam.WorldToScreen(dest_rect);
+
+	renderer->Blit(*surface, &src_rect, &dest);
 }
 

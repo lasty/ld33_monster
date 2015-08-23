@@ -73,15 +73,15 @@ public:
 
 	SpriteSheet sprite_sheet;
 
-	AnimatedSprite bat;
-	AnimatedSprite rock;
-	AnimatedSprite rock_break;
-
-	AnimatedSprite spikes;
-	AnimatedSprite snake;
-	AnimatedSprite bag;
-
-	AnimatedSprite hero;
+	//AnimatedSprite bat;
+	//AnimatedSprite rock;
+	//AnimatedSprite rock_break;
+	//
+	//AnimatedSprite spikes;
+	//AnimatedSprite snake;
+	//AnimatedSprite bag;
+	//
+	//AnimatedSprite hero;
 
 
 	ParticleSystem particle_system;
@@ -100,14 +100,18 @@ public:
 
 
 
-//Level editor
+	//Level editor
 	void SetSelectedTile(const std::string &string);
 	std::string selected_tile = "none";
 	bool painting = false;
 
 
+	//Entity editor
+	void SetSelectedEntity(const std::string &string);
+	std::string selected_entity = "hero";
 
-// Getters
+
+	// Getters
 	bool GetRunning() const { return game_running; }
 	const SDL_Rect& GetRect() const { return rect; }
 

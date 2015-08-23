@@ -40,24 +40,24 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 , particle_system(renderer, data_path)
 
-, world(renderer, data_path)
+, world(renderer, data_path, sprite_sheet)
 
 {
 	SDL_GetWindowSize(window, &rect.w, &rect.h);
 
 	world.RandomMap(10, 5);
 
-	bat = sprite_sheet.GetSprite("bat");
-
-	rock = sprite_sheet.GetSprite("rock");
-	rock_break = sprite_sheet.GetSprite("rock_break");
-
-	spikes = sprite_sheet.GetSprite("spikes");
-	snake = sprite_sheet.GetSprite("snake");
-
-	bag = sprite_sheet.GetSprite("bag");
-
-	hero = sprite_sheet.GetSprite("hero");
+	//bat = sprite_sheet.GetSprite("bat");
+	//
+	//rock = sprite_sheet.GetSprite("rock");
+	//rock_break = sprite_sheet.GetSprite("rock_break");
+	//
+	//spikes = sprite_sheet.GetSprite("spikes");
+	//snake = sprite_sheet.GetSprite("snake");
+	//
+	//bag = sprite_sheet.GetSprite("bag");
+	//
+	//hero = sprite_sheet.GetSprite("hero");
 
 	SetupGUI();
 
@@ -100,17 +100,19 @@ void Game::Update(float dt)
 	if (pan_down) world_camera.PanCamera(0, 1);
 
 
-	bat.Update(dt);
-	rock.Update(dt);
-	rock_break.Update(dt);
-
-	spikes.Update(dt);
-	snake.Update(dt);
-	bag.Update(dt);
-
-	hero.Update(dt);
+	//bat.Update(dt);
+	//rock.Update(dt);
+	//rock_break.Update(dt);
+	//
+	//spikes.Update(dt);
+	//snake.Update(dt);
+	//bag.Update(dt);
+	//
+	//hero.Update(dt);
 
 	world_camera.Update(dt);
+
+	world.Update(dt);
 
 	if (painting) { PasteSelectedTile(); }
 
@@ -131,17 +133,17 @@ void Game::Render()
 	world.Render(world_camera);
 
 
-	bat.Render(200, 200, 4);
-	rock.Render(300, 200, 4);
-	rock_break.Render(400, 200, 4);
+	//bat.Render(200, 200, 1, world_camera);
+	//rock.Render(300, 200, 1, world_camera);
+	//rock_break.Render(400, 200, 1, world_camera);
+	//
+	//snake.Render(500, 200, 1, world_camera);
+	//bag.Render(600, 200, 1, world_camera);
+	//
+	//hero.Render(200, 400, 1, world_camera);
+	//spikes.Render(400, 400, 1, world_camera);
 
-	snake.Render(500, 200, 4);
-	bag.Render(600, 200, 4);
-
-	hero.Render(200, 400, 4);
-	spikes.Render(400, 400, 4);
-
-	particle_system.Render();
+	particle_system.Render(screen_camera);
 
 
 	gui.Render();
@@ -186,8 +188,8 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 	if (event.keysym.sym == SDLK_s) pan_down = true;
 	if (event.keysym.sym == SDLK_d) pan_right = true;
 
-	if (event.keysym.sym == SDLK_1) SetSelectedTile("none");
-	if (event.keysym.sym == SDLK_2) SetSelectedTile("wall");
+	if (event.keysym.sym == SDLK_1)  { SetSelectedTile("none");  SetSelectedEntity("spikes"); }
+	if (event.keysym.sym == SDLK_2)  { SetSelectedTile("wall");  SetSelectedEntity("bat"); }
 
 
 }
@@ -217,28 +219,37 @@ void Game::MouseMove(const SDL_MouseMotionEvent &event)
 	}
 
 	SDL_Point worldpos = world_camera.ScreenToWorld(event.x, event.y);
-	world.HighlightTile(worldpos);
+	world.SetTileCursor(worldpos);
+	world.SetEntityCursor(worldpos);
 
 }
 
 void Game::MouseDown(const SDL_MouseButtonEvent &event)
 {
-	if (event.button == 1) painting = true;
+	if (event.button == 3) painting = true;
 
-	if (event.button == 2 or event.button == 3) pan_camera = true;
+	if (event.button == 1) world.PasteEntity(selected_entity);
+
+	if (event.button == 2) pan_camera = true;
 }
 
 void Game::MouseUp(const SDL_MouseButtonEvent &event)
 {
-	if (event.button == 1) painting = false;
+	if (event.button == 3) painting = false;
 
-	if (event.button == 2 or event.button == 3) pan_camera = false;
+	if (event.button == 2) pan_camera = false;
 }
 
 void Game::SetSelectedTile(const std::string &string)
 {
 	selected_tile = string;
 }
+
+void Game::SetSelectedEntity(const std::string &string)
+{
+	selected_entity = string;
+}
+
 
 void Game::PasteSelectedTile()
 {

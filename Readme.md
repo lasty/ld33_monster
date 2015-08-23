@@ -22,7 +22,7 @@ Build Graphics Engine:
 	Collision Detection
 		Rectangles/Sizes?
 	Physics
-	World Camera Zoom, Culling
+	World Camera Culling?
 
 
 Level Editor:

@@ -55,7 +55,7 @@ void ParticleSystem::RemoveDeadParticles()
 	particle_list.erase(partition, particle_list.end());
 }
 
-void ParticleSystem::Render()
+void ParticleSystem::Render(Camera &cam)
 {
 	for(auto & particle : particle_list)
 	{
@@ -69,7 +69,7 @@ void ParticleSystem::Render()
 
 		Sprite &particlesprite = ptype.at(frame);
 
-		particlesprite.Render(particle.GetX(), particle.GetY(), particle.GetSize());
+		particlesprite.Render(particle.GetX(), particle.GetY(), particle.GetSize(), cam);
 
 	}
 }
