@@ -21,7 +21,7 @@ void Text::SetText(const std::string &new_text)
 {
 	if(text != new_text)
 	{
-		SetSurface(TTF_RenderText_Blended(font.GetFont(), text.c_str(), colour.GetSDLColor()));
+		SetSurface(TTF_RenderText_Blended(font.GetFont(), new_text.c_str(), colour.GetSDLColor()));
 		SetBlend(SDL_BLENDMODE_BLEND);
 		UpdateTexture();
 

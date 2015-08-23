@@ -14,6 +14,8 @@
 #include <memory>
 
 
+class BaseAI;
+
 
 class Entity
 {
@@ -35,6 +37,7 @@ private:
 	MovableComponent * movable = nullptr;
 	CollisionComponent * collision = nullptr;
 
+	BaseAI * base_ai = nullptr;
 
 private:
 	std::vector<std::unique_ptr<Component>> components;
@@ -46,6 +49,7 @@ public:
 	SDL_Point GetPositionAsPoint() const;
 	MovableComponent * GetPosition() const { return movable; }
 	CollisionComponent * GetCollision() const { return collision; }
+	const std::string * GetAIStateName() const;
 
 	void Update(float dt);
 

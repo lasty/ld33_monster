@@ -134,7 +134,9 @@ private:
 	std::string debug_text;
 
 public:
-	void SetText(const std::string new_text);
+	void SetText(const std::string &new_text);
+
+	void Update(float dt) override;
 
 	void Render(int x, int y, Camera &cam) override;
 

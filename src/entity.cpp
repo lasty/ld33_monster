@@ -6,6 +6,7 @@
 
 
 #include "components.h"
+#include "ai.h"
 
 
 Entity::Entity(std::string name)
@@ -36,6 +37,14 @@ void Entity::AddComponent(Component *take_ownership)
 		movable = mov;
 	}
 
+
+	BaseAI *ai = dynamic_cast<BaseAI*>(take_ownership);
+	if (ai)
+	{
+		assert(base_ai == nullptr);
+		base_ai = ai;
+	}
+
 }
 
 
@@ -49,6 +58,14 @@ SDL_Point Entity::GetPositionAsPoint() const
 		p.y = (int)pos.y;
 	}
 	return p;
+}
+
+
+const std::string *Entity::GetAIStateName() const
+{
+	if (not base_ai) return nullptr;
+
+	return &base_ai->GetState();
 }
 
 
@@ -73,3 +90,5 @@ void Entity::Render(Camera &cam)
 	}
 
 }
+
+

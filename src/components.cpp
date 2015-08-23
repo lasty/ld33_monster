@@ -12,6 +12,9 @@
 
 #include <glm/geometric.hpp>
 
+#include <iostream>
+#include <sstream>
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -224,10 +227,29 @@ DebugComponent::DebugComponent(Entity *entity, Renderer &renderer, Font &font, s
 
 }
 
-void DebugComponent::SetText(const std::string new_text)
+
+void DebugComponent::SetText(const std::string &new_text)
 {
-	debug_text = new_text;
-	text.SetText(new_text);
+	if (debug_text != new_text)
+	{
+		debug_text = new_text;
+		text.SetText(new_text);
+	}
+}
+
+
+void DebugComponent::Update(float dt)
+{
+	std::stringstream ss;
+
+	ss << entity->name;
+
+	if (entity->GetAIStateName())
+	{
+		ss << " - " <<  *entity->GetAIStateName();
+	}
+
+	SetText(ss.str());
 }
 
 
@@ -259,6 +281,8 @@ void DebugComponent::Render(int x, int y, Camera &cam)
 	text.Render(x+xoff, y-yoff, 0.5f, cam);
 
 }
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

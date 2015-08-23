@@ -5,6 +5,7 @@
 #include "entityfactory.h"
 #include "components.h"
 
+#include "ai.h"
 
 #include <iostream>
 
@@ -51,6 +52,9 @@ std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, 
 		ent->AddComponent(new CollisionComponent(ent.get(), world, 32, 32));
 
 		ent->AddComponent(new PhysicsComponent(ent.get(), world, false));
+
+		ent->AddComponent(new SimpleMoverAI(ent.get(), world));
+
 
 	}
 	else if (entitydefname == "spikes")

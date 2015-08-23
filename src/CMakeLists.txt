@@ -20,7 +20,8 @@ set(SOURCE_FILES
         camera.cpp camera.h
         entity.cpp entity.h
         components.cpp components.h
-        entityfactory.cpp entityfactory.h)
+        entityfactory.cpp entityfactory.h
+        ai.cpp ai.h)
 
 add_executable(ld33_monster ${SOURCE_FILES})
 

@@ -20,7 +20,7 @@ void AnimatedSprite::Update(float dt)
 	{
 		frame++;
 
-		if (frame >= animation->frames.size())
+		if (frame >= (int)animation->frames.size())
 		{
 			frame = 0;
 			finished = true;
