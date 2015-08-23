@@ -13,6 +13,9 @@
 #include "text.h"
 
 
+#include <glm/vec2.hpp>
+
+
 class Entity;
 class World;
 
@@ -66,6 +69,8 @@ public:
 	void SetPosition(int x, int y);
 	const SDL_Rect & GetBoundingBox() const { return boundingbox; }
 
+	bool HasCollisionAt(int x, int y) const;
+
 	bool HasCollision() const;
 };
 
@@ -80,11 +85,34 @@ public:
 
 private:
 	Entity *entity = nullptr;
-	SDL_Point position;
+	glm::vec2 position;
 
 public:
-	void SetPosition(int x, int y);
-	const SDL_Point & GetPosition() const { return position; }
+	void SetPosition(float x, float y);
+	const glm::vec2 & GetPosition() const { return position; }
+
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+class PhysicsComponent : public Component
+{
+public:
+	PhysicsComponent(Entity *entity, World *world, bool gravity);
+
+private:
+	Entity *entity = nullptr;
+	World *world = nullptr;
+	bool gravity = true;
+
+
+	glm::vec2 velocity;
+
+public:
+	void Update(float dt) override;
+
 };
 
 

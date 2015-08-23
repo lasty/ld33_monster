@@ -43,7 +43,8 @@ public:
 	void AddComponent(Component * take_ownership);
 
 
-	SDL_Point GetPosition() const;
+	SDL_Point GetPositionAsPoint() const;
+	MovableComponent * GetPosition() const { return movable; }
 	CollisionComponent * GetCollision() const { return collision; }
 
 	void Update(float dt);

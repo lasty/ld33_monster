@@ -57,7 +57,7 @@ CollisionComponent::CollisionComponent(Entity *entity, World *world, int w, int 
 	boundingbox.w = w;
 	boundingbox.h = h;
 
-	const auto & pos = entity->GetPosition();
+	const auto & pos = entity->GetPositionAsPoint();
 
 	SetPosition(pos.x, pos.y);
 }
@@ -67,6 +67,19 @@ void CollisionComponent::SetPosition(int x, int y)
 {
 	boundingbox.x = x - (boundingbox.w / 2);
 	boundingbox.y = y - (boundingbox.h / 2);
+}
+
+
+bool CollisionComponent::HasCollisionAt(int x, int y) const
+{
+	if (not world) return false;
+
+	SDL_Rect newbb = boundingbox;
+	newbb.x = x - (boundingbox.w / 2);
+	newbb.y = y - (boundingbox.h / 2);
+
+	return world->HasCollisionAny(newbb, entity);
+
 }
 
 
@@ -88,7 +101,7 @@ MovableComponent::MovableComponent(Entity *entity, int x, int y)
 
 }
 
-void MovableComponent::SetPosition(int x, int y)
+void MovableComponent::SetPosition(float x, float y)
 {
 	position.x = x;
 	position.y = y;
@@ -96,6 +109,57 @@ void MovableComponent::SetPosition(int x, int y)
 
 
 ////////////////////////////////////////////////////////////////////////////////
+
+
+PhysicsComponent::PhysicsComponent(Entity *entity, World *world, bool gravity)
+: entity(entity)
+, world(world)
+, gravity(gravity)
+{
+	assert(entity);
+	assert(world);
+
+}
+
+void PhysicsComponent::Update(float dt)
+{
+	assert(entity);
+	assert(entity->GetCollision());
+	assert(entity->GetPosition());
+
+
+	glm::vec2 pos = entity->GetPosition()->GetPosition();
+
+	if (gravity)
+	{
+		//pos.y += 1;
+		glm::vec2 gravity_vec { 0.0f, 32 * 18.0f };
+
+		velocity += (gravity_vec * dt);
+	}
+
+	pos += (velocity * dt);
+
+	SDL_Point newpos{int(pos.x), int(pos.y)};
+
+	if (entity->GetCollision()->HasCollisionAt(newpos.x, newpos.y))
+	{
+		//rebound in other direction
+		velocity = velocity * -0.5f;
+	}
+	else
+	{
+		//place new position
+		entity->GetPosition()->SetPosition(pos.x, pos.y);
+		entity->GetCollision()->SetPosition(newpos.x, newpos.y);
+	}
+
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 Colour bounding_box_colour1 { "green" };
 Colour bounding_box_colour2 { "red" };

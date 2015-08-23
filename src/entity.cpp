@@ -39,12 +39,14 @@ void Entity::AddComponent(Component *take_ownership)
 }
 
 
-SDL_Point Entity::GetPosition() const
+SDL_Point Entity::GetPositionAsPoint() const
 {
 	SDL_Point p{-1, -1};
 	if (movable)
 	{
-		p = movable->GetPosition();
+		const auto & pos = movable->GetPosition();
+		p.x = (int)pos.x;
+		p.y = (int)pos.y;
 	}
 	return p;
 }

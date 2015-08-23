@@ -5,7 +5,8 @@ none none wall none none none wall none wall none
 none wall wall wall none none wall wall wall none 
 wall wall wall wall wall none none none none none 
 
-3
+4
 240 82 spikes
 126 65 bat
 47 80 hero
+173 21 hero

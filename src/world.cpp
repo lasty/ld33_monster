@@ -192,7 +192,7 @@ void World::Save(const std::string filename)
 
 	for(auto &ent : entity_list)
 	{
-		SDL_Point pos = ent->GetPosition();
+		SDL_Point pos = ent->GetPositionAsPoint();
 		out << pos.x << " " << pos.y << " " << ent->name << std::endl;
 	}
 

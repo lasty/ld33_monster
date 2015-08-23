@@ -33,6 +33,8 @@ std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, 
 
 		ent->AddComponent(new CollisionComponent(ent.get(), world, 32, 16));
 
+		ent->AddComponent(new PhysicsComponent(ent.get(), world, true));
+
 	}
 	else if (entitydefname == "hero")
 	{
@@ -40,11 +42,16 @@ std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, 
 
 		ent->AddComponent(new CollisionComponent(ent.get(), world, 16, 32));
 
+		ent->AddComponent(new PhysicsComponent(ent.get(), world, true));
+
 	}
 	else if (entitydefname == "bat")
 	{
 		ent->AddComponent(new SpriteComponent(sprite_sheet.GetSprite("bat")));
 		ent->AddComponent(new CollisionComponent(ent.get(), world, 32, 32));
+
+		ent->AddComponent(new PhysicsComponent(ent.get(), world, false));
+
 	}
 	else if (entitydefname == "spikes")
 	{
