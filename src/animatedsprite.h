@@ -38,7 +38,7 @@ private:
 public:
 	void Update(float dt);
 
-	void Render(int x, int y, int zoom, Camera &cam);
+	void Render(int x, int y, float  zoom, Camera &cam);
 
 	bool GetFinished() const { return finished; }
 

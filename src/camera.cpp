@@ -44,6 +44,19 @@ SDL_Rect Camera::WorldToScreen(SDL_Rect rect) const
 }
 
 
+SDL_Rect Camera::WorldToScreen(SDL_Rect rect, float size) const
+{
+	rect.x -= offset_x;
+	rect.y -= offset_y;
+
+	rect.x *= zoom;
+	rect.y *= zoom;
+	rect.w *= zoom * size;
+	rect.h *= zoom * size;
+
+	return rect;
+}
+
 void Camera::Update(float dt)
 {
 	if (fabs(set_zoom - zoom) < 0.05f) zoom = set_zoom;

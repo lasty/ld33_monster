@@ -40,7 +40,7 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 , particle_system(renderer, data_path)
 
-, world(renderer, data_path, sprite_sheet)
+, world(renderer, particle_system, data_path, sprite_sheet)
 
 {
 	SDL_GetWindowSize(window, &rect.w, &rect.h);
@@ -132,7 +132,7 @@ void Game::Render()
 	{
 		world.Render(world_camera);
 
-		particle_system.Render(screen_camera);
+		particle_system.Render(world_camera);
 	}
 
 

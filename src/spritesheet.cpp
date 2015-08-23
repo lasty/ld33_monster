@@ -9,10 +9,9 @@ SpriteSheet::SpriteSheet(Renderer &renderer, const std::string &data_path)
 : renderer(renderer)
 , sprites1(renderer, data_path+"sprites1.xcf")
 {
-
 	SetupSprites();
-
 }
+
 
 Animation &SpriteSheet::GetAnimation(const std::string &name)
 {

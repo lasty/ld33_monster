@@ -43,7 +43,7 @@ public:
 
 private:
 	AnimatedSprite animated_sprite;
-	int zoom = 1;
+	float zoom = 1.0f;
 
 public:
 	void Update(float dt) override;
@@ -68,7 +68,10 @@ private:
 public:
 	void SetPosition(int x, int y);
 	const SDL_Rect & GetBoundingBox() const { return boundingbox; }
+	float GetRadius() const;
 
+	bool HasEntityCollisionAt(int x, int y) const;
+	bool HasWorldCollisionAt(int x, int y) const;
 	bool HasCollisionAt(int x, int y) const;
 
 	bool HasCollision() const;

@@ -30,7 +30,7 @@ void AnimatedSprite::Update(float dt)
 	}
 }
 
-void AnimatedSprite::Render(int x, int y, int zoom, Camera &cam)
+void AnimatedSprite::Render(int x, int y, float zoom, Camera &cam)
 {
 	assert(animation);
 	assert(frame >=0 and frame <= (int)animation->frames.size());

@@ -15,8 +15,9 @@ Colour cursor_colour{1.0f, 1.0f, 0.2f, 1.0f};
 Colour cursor_fill_colour{0.5f, 0.5f, 0.5f, 0.3f};
 
 
-World::World(Renderer &renderer, const std::string &data_path, SpriteSheet &sprite_sheet)
+World::World(Renderer &renderer, ParticleSystem &particle_system, const std::string &data_path, SpriteSheet &sprite_sheet)
 : renderer(renderer)
+, particle_system(particle_system)
 , terrain(renderer, data_path+"terrain.xcf")
 , tile1(terrain, 32, 0, 0, 1, 1)
 , tile2(terrain, 32, 1, 0, 1, 1)
@@ -371,3 +372,7 @@ bool World::HasCollisionAny(const SDL_Rect &boundingbox, Entity *ignore_entity) 
 }
 
 
+void World::AddParticleEffect(SDL_Point point, const std::string &string)
+{
+	particle_system.AddParticleEffect(string, point.x, point.y);
+}

@@ -38,7 +38,7 @@ public:
 	int GetLastX() const { return (int) last_position.x; }
 	int GetLastY() const { return (int) last_position.y; }
 
-	int GetSize() const { return (int) size; }
+	float GetSize() const { return size; }
 
 	int GetType() const { return particle_type; }
 

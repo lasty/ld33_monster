@@ -55,6 +55,7 @@ void ParticleSystem::RemoveDeadParticles()
 	particle_list.erase(partition, particle_list.end());
 }
 
+
 void ParticleSystem::Render(Camera &cam)
 {
 	for(auto & particle : particle_list)
@@ -70,6 +71,7 @@ void ParticleSystem::Render(Camera &cam)
 		Sprite &particlesprite = ptype.at(frame);
 
 		particlesprite.Render(particle.GetX(), particle.GetY(), particle.GetSize(), cam);
+		//particlesprite.Render(particle.GetX(), particle.GetY(), 0.5f, cam);
 
 	}
 }
@@ -89,17 +91,17 @@ void ParticleSystem::AddParticleEffect(const std::string name, int x, int y)
 	if (name == "dust")
 	{
 		num = 10;
-		size=2.0f;
+		size=0.5f;
 		velocity_spread = 10.0f;
 		gravity.y = -10.0f;
-		ttl = 1.5f;
+		ttl = 0.5f;
 	}
 	else if (name == "spark")
 	{
 		num = 20;
 		gravity.y = 100.0f;
-		size=1.0f;
-		ttl = 0.5f;
+		size=0.3f;
+		ttl = 0.2f;
 		velocity_spread = 200.0f;
 		rand_initial_spread = 1.0f;
 	}
@@ -126,8 +128,8 @@ void ParticleSystem::AddParticleEffect(const std::string name, int x, int y)
 		glm::vec2 velocity = glm::diskRand(velocity_spread);
 		glm::vec2 acceleration = gravity;
 
-		float size2 = glm::gaussRand(size, 0.5f);
-		if (size2 < 1.0f) size2 = 1.0f;
+		float size2 = size; //glm::gaussRand(size, 0.5f);
+		if (size2 < 0.1f) size2 = 0.1f;
 		float ttl2 = glm::gaussRand(ttl, 0.9f);
 		if (ttl2 < 0.1f) ttl2 = 1.0f;
 

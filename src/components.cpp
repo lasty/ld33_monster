@@ -10,6 +10,9 @@
 #include "world.h"
 
 
+#include <glm/geometric.hpp>
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -70,7 +73,13 @@ void CollisionComponent::SetPosition(int x, int y)
 }
 
 
-bool CollisionComponent::HasCollisionAt(int x, int y) const
+float CollisionComponent::GetRadius() const
+{
+	float max = glm::max(boundingbox.w, boundingbox.h);
+	return max/2.0f;
+}
+
+bool CollisionComponent::HasEntityCollisionAt(int x, int y) const
 {
 	if (not world) return false;
 
@@ -78,9 +87,28 @@ bool CollisionComponent::HasCollisionAt(int x, int y) const
 	newbb.x = x - (boundingbox.w / 2);
 	newbb.y = y - (boundingbox.h / 2);
 
-	return world->HasCollisionAny(newbb, entity);
+	return world->HasCollisionEntity(newbb, entity);
 
 }
+
+
+bool CollisionComponent::HasWorldCollisionAt(int x, int y) const
+{
+	if (not world) return false;
+
+	SDL_Rect newbb = boundingbox;
+	newbb.x = x - (boundingbox.w / 2);
+	newbb.y = y - (boundingbox.h / 2);
+
+	return world->HasCollisionWorld(newbb);
+}
+
+
+bool CollisionComponent::HasCollisionAt(int x, int y) const
+{
+	return HasWorldCollisionAt(x, y) or HasEntityCollisionAt(x, y);
+}
+
 
 
 bool CollisionComponent::HasCollision() const
@@ -129,6 +157,7 @@ void PhysicsComponent::Update(float dt)
 
 
 	glm::vec2 pos = entity->GetPosition()->GetPosition();
+	glm::vec2 pos_old = pos;
 
 	if (gravity)
 	{
@@ -142,10 +171,33 @@ void PhysicsComponent::Update(float dt)
 
 	SDL_Point newpos{int(pos.x), int(pos.y)};
 
-	if (entity->GetCollision()->HasCollisionAt(newpos.x, newpos.y))
+	bool collided_world = entity->GetCollision()->HasWorldCollisionAt(newpos.x, newpos.y);
+	bool collided_entity = entity->GetCollision()->HasEntityCollisionAt(newpos.x, newpos.y);
+	bool collided_any = collided_world or collided_entity;
+
+	if (collided_any)
 	{
+		float radius = entity->GetCollision()->GetRadius();
+		glm::vec2 collision_point = pos + (glm::normalize(velocity) * radius);
+		SDL_Point collision_pt { int(collision_point.x), int(collision_point.y) };
+
 		//rebound in other direction
 		velocity = velocity * -0.5f;
+
+		float how_hard = glm::distance(pos, pos_old);
+
+		if (how_hard > 0.1f)
+		{
+
+			if (collided_world)
+			{
+				world->AddParticleEffect(collision_pt, "dust");
+			}
+			else //collided with entity
+			{
+				world->AddParticleEffect(collision_pt, "spark");
+			}
+		}
 	}
 	else
 	{
@@ -155,7 +207,6 @@ void PhysicsComponent::Update(float dt)
 	}
 
 }
-
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -17,14 +17,8 @@ Will be in 3 waves, Easy/ Medium/Hard..   Each subsequent hero will have better 
 Day 2 Plan:
 
 
-Build Graphics Engine:
-	Collision Detection
-		Rectangles/Sizes?
-	Physics
-	World Camera Culling?
-
-
 AI Engine:
+	Simple moving AI (left, right, on collision)
 	PathFinding
 	AI Goal Setting
 	Monster AI
@@ -37,14 +31,11 @@ Main mechanic:  (Subset of Level Editor?)
 	Buy/Place monsters
 	Play/Pause buttons
 
-
-
 Menu System
 	Main Menu
 	Level Selector
 	Editor
 	Quit, etc
-
 
 Replace Placeholders:
 	Graphics
@@ -52,7 +43,6 @@ Replace Placeholders:
 
 Placeholder Sounds:
 	NotSure
-
 
 
 If More Time Plan:
@@ -64,8 +54,13 @@ Polish:
 	More Levels
 	More Heroes/Hero AI
 
+Optimize:
+	Optimize collision detection
+	World Camera Culling?
+
 Placeholder Music?
 	NotSure
+
 
 Stretch Goals:
 	Achievements

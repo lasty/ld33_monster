@@ -11,6 +11,7 @@
 #include "camera.h"
 #include "gui.h"
 #include "entityfactory.h"
+#include "particlesystem.h"
 
 // Standard includes
 #include <vector>
@@ -31,12 +32,14 @@ struct TileDef
 class World
 {
 public:
-	World(Renderer &renderer, const std::string &data_path, SpriteSheet &sprite_sheet);
+	World(Renderer &renderer, ParticleSystem &particle_system, const std::string &data_path, SpriteSheet &sprite_sheet);
 
 private:
 	Renderer &renderer;
 
 	//tilemap stuff
+
+	ParticleSystem &particle_system;
 
 	Surface terrain;
 
@@ -106,6 +109,7 @@ public:
 	bool HasCollisionEntity(const SDL_Rect &boundingbox, Entity *ignore_entity) const;
 	bool HasCollisionAny(const SDL_Rect &boundingbox, Entity *ignore_entity) const;
 
+	void AddParticleEffect(SDL_Point point, const std::string &string);
 };
 
 

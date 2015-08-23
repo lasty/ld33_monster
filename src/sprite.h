@@ -26,7 +26,7 @@ private:
 
 public:
 
-	void Render(int x, int y, int zoom, Camera &cam);
+	void Render(int x, int y, float zoom, Camera &cam);
 
 
 };
