@@ -129,6 +129,25 @@ void World::Load(const std::string filename)
 		}
 	}
 
+	//Entities
+
+	entity_list.clear();
+
+	int num_ents = 0;
+	in >> num_ents;
+
+	std::cout << "parsing  " << num_ents <<  " entities..." << std::endl;
+
+	for (int i = 0; i<num_ents; i++)
+	{
+		int entx = 0;
+		int enty = 0;
+		std::string entname;
+
+		in >> entx >> enty >> entname;
+		SpawnEntity(entname, entx, enty);
+	}
+
 	std::cout << "Done!" << std::endl;
 
 }
@@ -139,6 +158,8 @@ void World::Save(const std::string filename)
 	std::cout << "Saving map..." << std::endl;
 
 	std::ofstream out(filename, std::ios::trunc);
+
+	//Tile Map
 
 	out << width << " " << height << std::endl;
 
@@ -152,6 +173,16 @@ void World::Save(const std::string filename)
 		out << std::endl;
 	}
 	out << std::endl;
+
+
+	//Entities
+	out << entity_list.size() << std::endl;
+
+	for(auto &ent : entity_list)
+	{
+		out << ent.x << " " << ent.y << " " << ent.name << std::endl;
+	}
+
 
 	std::cout << "Saved!" << std::endl;
 
