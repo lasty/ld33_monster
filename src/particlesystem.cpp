@@ -108,6 +108,7 @@ void ParticleSystem::AddParticleEffect(const std::string name, int x, int y)
 	else if (name == "blood")
 	{
 		num = 5;
+		size=0.75f;
 		ttl = 0.5f;
 		gravity.y = 400.0f;
 	}

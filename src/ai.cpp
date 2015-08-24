@@ -114,10 +114,12 @@ void BaseAI::SetRandomState(std::vector<std::string> list)
 
 }
 
+
 void BaseAI::SetPause(float newpause)
 {
 	pause_timer = newpause;
 }
+
 
 void BaseAI::Update(float dt)
 {
@@ -135,9 +137,12 @@ void BaseAI::Update(float dt)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
 
-SimpleMoverAI::SimpleMoverAI(Entity *entity, World *world)
+
+SimpleMoverAI::SimpleMoverAI(Entity *entity, World *world, Input *input)
 : BaseAI(entity, world)
+, input(input)
 {
 
 }
@@ -155,13 +160,13 @@ void SimpleMoverAI::AITick()
 	else if(state == "move_left")
 	{
 		SetPause(0.5f);
-		//SetRandomState({"move_right"});
+		SetRandomState({"move_right"});
 	}
 
 	else if(state == "move_right")
 	{
 		SetPause(0.5f);
-		//SetRandomState({"move_left"});
+		SetRandomState({"move_left"});
 	}
 
 }
@@ -171,34 +176,33 @@ void SimpleMoverAI::Update(float dt)
 {
 	BaseAI::Update(dt);
 
-	glm::vec2 pos = GetEntity().GetPosition()->GetPosition();
-	float speed = 32.0f;
+	const auto & state = GetState();
 
-	if (GetState() == "move_left")
+	input->Clear();
+
+	if(state == "move_left")
 	{
-		pos.x -= speed * dt;
+		input->move_left = true;
 
-		//const TileDef * peek = PeekMap(-1, 0);
-		//if (peek and peek->solid)
 		if(CollidesWorld(GetSensorLeft()))
 		{
 			SetState("move_right");
+			input->Clear();
 		}
-
 	}
-	else if (GetState() == "move_right")
-	{
-		pos.x += speed * dt;
 
-		//const TileDef * peek = PeekMap(1, 0);
-		//if (peek and peek->solid)
+	else if(state == "move_right")
+	{
+		input->move_right = true;
+
 		if(CollidesWorld(GetSensorRight()))
 		{
 			SetState("move_left");
+			input->Clear();
 		}
 
 	}
 
-	GetEntity().GetPosition()->SetPosition(pos.x, pos.y);
 
 }
+

@@ -170,47 +170,100 @@ void PhysicsComponent::Update(float dt)
 		velocity += (gravity_vec * dt);
 	}
 
-	pos += (velocity * dt);
+	//Try splitting horizontal and vertical components, getting buggy with both at the same time
 
-	SDL_Point newpos{int(pos.x), int(pos.y)};
 
-	bool collided_world = entity->GetCollision()->HasWorldCollisionAt(newpos.x, newpos.y);
-	bool collided_entity = entity->GetCollision()->HasEntityCollisionAt(newpos.x, newpos.y);
-	bool collided_any = collided_world or collided_entity;
+	//Horizontal
+	glm::vec2 new_pos_horiz = pos;
+	new_pos_horiz.x += (velocity.x * dt);
 
-	if (collided_any)
+	bool collided_world_horiz = entity->GetCollision()->HasWorldCollisionAt((int)new_pos_horiz.x, (int)new_pos_horiz.y);
+	bool collided_entity_horiz = entity->GetCollision()->HasEntityCollisionAt((int)new_pos_horiz.x, (int)new_pos_horiz.y);
+	bool collided_any_horiz = collided_world_horiz or collided_entity_horiz;
+
+	//Vertical
+	glm::vec2 new_pos_vert = pos;
+	new_pos_vert.y += (velocity.y * dt);
+
+	bool collided_world_vert = entity->GetCollision()->HasWorldCollisionAt((int)new_pos_vert.x, (int)new_pos_vert.y);
+	bool collided_entity_vert = entity->GetCollision()->HasEntityCollisionAt((int)new_pos_vert.x, (int)new_pos_vert.y);
+	bool collided_any_vert = collided_world_vert or collided_entity_vert;
+
+
+	//pos += (velocity * dt);  TODO
+
+	//SDL_Point newpos{int(pos.x), int(pos.y)};  //TODO?
+
+	if (collided_any_horiz)
 	{
-		float radius = entity->GetCollision()->GetRadius();
-		glm::vec2 collision_point = pos + (glm::normalize(velocity) * radius);
+		float radius = entity->GetCollision()->GetBoundingBox().w / 2;
+		glm::vec2 collision_point = new_pos_horiz + (glm::normalize(velocity) * radius);
 		SDL_Point collision_pt { int(collision_point.x), int(collision_point.y) };
 
 		//rebound in other direction
-		velocity = velocity * -0.5f;
+		velocity.x = velocity.x * -0.5f;
 
-		float how_hard = glm::distance(pos, pos_old);
+		float how_hard = glm::distance(new_pos_horiz, pos_old);
 
 		if (how_hard > 0.1f)
 		{
-
-			if (collided_world)
+			if (collided_world_horiz)
 			{
 				world->AddParticleEffect(collision_pt, "dust");
 			}
 			else //collided with entity
 			{
-				world->AddParticleEffect(collision_pt, "spark");
+				world->AddParticleEffect(collision_pt, "blood");
 			}
 		}
 	}
 	else
 	{
+		pos.x = new_pos_horiz.x;
+	}
+
+	if (collided_any_vert)
+	{
+		float radius = entity->GetCollision()->GetBoundingBox().h / 2;
+		glm::vec2 collision_point = new_pos_vert + (glm::normalize(velocity) * radius);
+		SDL_Point collision_pt { int(collision_point.x), int(collision_point.y) };
+
+		//rebound in other direction
+		velocity.y = velocity.y * -0.5f;
+
+		float how_hard = glm::distance(new_pos_vert, pos_old);
+
+		if (how_hard > 0.1f)
+		{
+			if (collided_world_vert)
+			{
+				world->AddParticleEffect(collision_pt, "dust");
+			}
+			else //collided with entity
+			{
+				world->AddParticleEffect(collision_pt, "blood");
+			}
+		}
+	}
+	else
+	{
+		pos.y = new_pos_vert.y;
+	}
+
+	//if (pos_old != pos)
+	{
 		//place new position
 		entity->GetPosition()->SetPosition(pos.x, pos.y);
-		entity->GetCollision()->SetPosition(newpos.x, newpos.y);
+		entity->GetCollision()->SetPosition((int)pos.x, (int)pos.y);
 	}
 
 }
 
+
+void PhysicsComponent::Impulse(const glm::vec2 &force)
+{
+	velocity += force;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

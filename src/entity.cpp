@@ -37,6 +37,13 @@ void Entity::AddComponent(Component *take_ownership)
 		movable = mov;
 	}
 
+	PhysicsComponent *phys = dynamic_cast<PhysicsComponent*>(take_ownership);
+	if (phys)
+	{
+		assert(physics == nullptr);
+		physics = phys;
+	}
+
 
 	BaseAI *ai = dynamic_cast<BaseAI*>(take_ownership);
 	if (ai)
@@ -44,6 +51,8 @@ void Entity::AddComponent(Component *take_ownership)
 		assert(base_ai == nullptr);
 		base_ai = ai;
 	}
+
+
 
 }
 

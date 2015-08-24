@@ -15,7 +15,7 @@ Colour cursor_colour{1.0f, 1.0f, 0.2f, 1.0f};
 Colour cursor_fill_colour{0.5f, 0.5f, 0.5f, 0.3f};
 
 
-World::World(Renderer &renderer, ParticleSystem &particle_system, const std::string &data_path, SpriteSheet &sprite_sheet)
+World::World(Renderer &renderer, ParticleSystem &particle_system, const std::string &data_path, SpriteSheet &sprite_sheet, Input &input)
 : renderer(renderer)
 , particle_system(particle_system)
 , terrain(renderer, data_path+"terrain.xcf")
@@ -28,7 +28,7 @@ World::World(Renderer &renderer, ParticleSystem &particle_system, const std::str
 
 , debug_font(data_path+"fonts/SourceSansPro/SourceSansPro-Regular.ttf", 14)
 
-, entity_factory(renderer, debug_font, sprite_sheet)
+, entity_factory(renderer, debug_font, sprite_sheet, input)
 {
 	SetupTileDefs();
 }

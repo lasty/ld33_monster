@@ -8,6 +8,7 @@
 
 #include "components.h"
 #include "world.h"
+#include "input.h"
 
 #include <vector>
 
@@ -68,16 +69,18 @@ public:
 };
 
 
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
 class SimpleMoverAI : public BaseAI
 {
 public:
-	SimpleMoverAI(Entity *entity, World *world);
+	SimpleMoverAI(Entity *entity, World *world, Input *input);
 
 protected:
 	float pause_timer = 0.2f;
+	Input *input = nullptr;
 
 public:
 	void AITick() override;

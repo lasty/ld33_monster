@@ -13,10 +13,11 @@
 Colour debug_text_colour { "yellow" };
 
 
-EntityFactory::EntityFactory(Renderer &renderer, Font &debug_font, SpriteSheet &sprite_sheet)
+EntityFactory::EntityFactory(Renderer &renderer, Font &debug_font, SpriteSheet &sprite_sheet, Input &input)
 : renderer(renderer)
 , debug_font(debug_font)
 , sprite_sheet(sprite_sheet)
+, player_input(input)
 {
 
 }
@@ -35,7 +36,7 @@ std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, 
 		ent->AddComponent(new CollisionComponent(ent.get(), world, 32, 16));
 
 		ent->AddComponent(new PhysicsComponent(ent.get(), world, true));
-		ent->AddComponent(new SimpleMoverAI(ent.get(), world));
+		//ent->AddComponent(new SimpleMoverAI(ent.get(), world));
 
 	}
 	else if (entitydefname == "hero")
@@ -45,7 +46,8 @@ std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, 
 		ent->AddComponent(new CollisionComponent(ent.get(), world, 16, 32));
 
 		ent->AddComponent(new PhysicsComponent(ent.get(), world, true));
-		ent->AddComponent(new SimpleMoverAI(ent.get(), world));
+		ent->AddComponent(new InputControllerComponent(ent.get(), world, &player_input));
+		//ent->AddComponent(new SimpleMoverAI(ent.get(), world, &player_input));
 
 	}
 	else if (entitydefname == "bat")
@@ -55,7 +57,7 @@ std::unique_ptr<Entity> EntityFactory::Create(const std::string &entitydefname, 
 
 		ent->AddComponent(new PhysicsComponent(ent.get(), world, false));
 
-		ent->AddComponent(new SimpleMoverAI(ent.get(), world));
+		//ent->AddComponent(new SimpleMoverAI(ent.get(), world));
 
 
 	}

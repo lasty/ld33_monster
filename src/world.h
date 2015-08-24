@@ -12,6 +12,8 @@
 #include "gui.h"
 #include "entityfactory.h"
 #include "particlesystem.h"
+#include "input.h"
+
 
 // Standard includes
 #include <vector>
@@ -32,7 +34,7 @@ struct TileDef
 class World
 {
 public:
-	World(Renderer &renderer, ParticleSystem &particle_system, const std::string &data_path, SpriteSheet &sprite_sheet);
+	World(Renderer &renderer, ParticleSystem &particle_system, const std::string &data_path, SpriteSheet &sprite_sheet, Input &input);
 
 private:
 	Renderer &renderer;

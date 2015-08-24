@@ -21,7 +21,7 @@ set(SOURCE_FILES
         entity.cpp entity.h
         components.cpp components.h
         entityfactory.cpp entityfactory.h
-        ai.cpp ai.h)
+        ai.cpp ai.h input.cpp input.h)
 
 add_executable(ld33_monster ${SOURCE_FILES})
 

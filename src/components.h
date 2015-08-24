@@ -116,6 +116,8 @@ private:
 public:
 	void Update(float dt) override;
 
+	void Impulse(const glm::vec2 &force);
+
 };
 
 

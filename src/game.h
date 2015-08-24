@@ -14,6 +14,7 @@
 #include "particlesystem.h"
 #include "world.h"
 #include "gui.h"
+#include "input.h"
 
 // SDL includes
 #include <SDL_events.h>
@@ -45,6 +46,8 @@ private:
 	bool pan_right = false;
 	bool pan_up = false;
 	bool pan_down = false;
+
+	Input keyboard_input;
 
 public:
 

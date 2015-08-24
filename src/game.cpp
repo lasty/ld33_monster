@@ -40,7 +40,7 @@ Game::Game(std::string data_path, SDL_Window *window)
 
 , particle_system(renderer, data_path)
 
-, world(renderer, particle_system, data_path, sprite_sheet)
+, world(renderer, particle_system, data_path, sprite_sheet, keyboard_input)
 
 {
 	SDL_GetWindowSize(window, &rect.w, &rect.h);
@@ -149,13 +149,13 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 {
 	if(event.keysym.sym == SDLK_q)  QuitGame();
 
-	if (event.keysym.sym == SDLK_SPACE)
-	{
-		particle_system.AddParticleEffect("dust", 200, 200);
-		particle_system.AddParticleEffect("spark", 400, 200);
-		particle_system.AddParticleEffect("blood", 200, 400);
-		particle_system.AddParticleEffect("blood_pool", 400, 400);
-	}
+	//if (event.keysym.sym == SDLK_SPACE)
+	//{
+	//	particle_system.AddParticleEffect("dust", 200, 200);
+	//	particle_system.AddParticleEffect("spark", 400, 200);
+	//	particle_system.AddParticleEffect("blood", 200, 400);
+	//	particle_system.AddParticleEffect("blood_pool", 400, 400);
+	//}
 
 	if (event.keysym.sym == SDLK_n)
 	{
@@ -173,11 +173,17 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 	}
 
 
+	//if (event.keysym.sym == SDLK_w) pan_up = true;
+	//if (event.keysym.sym == SDLK_a) pan_left = true;
+	//if (event.keysym.sym == SDLK_s) pan_down = true;
+	//if (event.keysym.sym == SDLK_d) pan_right = true;
 
-	if (event.keysym.sym == SDLK_w) pan_up = true;
-	if (event.keysym.sym == SDLK_a) pan_left = true;
-	if (event.keysym.sym == SDLK_s) pan_down = true;
-	if (event.keysym.sym == SDLK_d) pan_right = true;
+
+	if (event.keysym.sym == SDLK_w or event.keysym.sym == SDLK_SPACE) keyboard_input.jump = true;
+	if (event.keysym.sym == SDLK_a) keyboard_input.move_left = true;
+	if (event.keysym.sym == SDLK_d) keyboard_input.move_right = true;
+
+
 
 	if (event.keysym.sym == SDLK_1)  { SetSelectedTile("none");  SetSelectedEntity("spikes"); }
 	if (event.keysym.sym == SDLK_2)  { SetSelectedTile("wall");  SetSelectedEntity("bat"); }
@@ -188,11 +194,15 @@ void Game::KeyDown(const SDL_KeyboardEvent &event)
 
 void Game::KeyUp(const SDL_KeyboardEvent &event)
 {
-	if (event.keysym.sym == SDLK_w) pan_up = false;
-	if (event.keysym.sym == SDLK_a) pan_left = false;
-	if (event.keysym.sym == SDLK_s) pan_down = false;
-	if (event.keysym.sym == SDLK_d) pan_right = false;
+	//if (event.keysym.sym == SDLK_w) pan_up = false;
+	//if (event.keysym.sym == SDLK_a) pan_left = false;
+	//if (event.keysym.sym == SDLK_s) pan_down = false;
+	//if (event.keysym.sym == SDLK_d) pan_right = false;
 
+
+	if (event.keysym.sym == SDLK_w or event.keysym.sym == SDLK_SPACE) keyboard_input.jump = false;
+	if (event.keysym.sym == SDLK_a) keyboard_input.move_left = false;
+	if (event.keysym.sym == SDLK_d) keyboard_input.move_right = false;
 
 }
 

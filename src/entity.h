@@ -36,6 +36,7 @@ private:
 	//Common component references
 	MovableComponent * movable = nullptr;
 	CollisionComponent * collision = nullptr;
+	PhysicsComponent * physics = nullptr;
 
 	BaseAI * base_ai = nullptr;
 
@@ -49,6 +50,8 @@ public:
 	SDL_Point GetPositionAsPoint() const;
 	MovableComponent * GetPosition() const { return movable; }
 	CollisionComponent * GetCollision() const { return collision; }
+	PhysicsComponent * GetPhysics() const { return physics; }
+
 	const std::string * GetAIStateName() const;
 
 	void Update(float dt);
